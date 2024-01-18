@@ -37,9 +37,9 @@
               <label for="doctorLastName" class="label">Last Name:</label>
               <input type="text" id="doctorLastName" v-model="doctor.lastName" required class="blue-border" />
             </div>
-            <div id="doctorSpecialization" class="sub-form-group">
-              <label for="doctorSpecialization" class="label">Specialization:</label>
-              <input type="text" id="doctorSpecialization" v-model="doctor.specialization" required class="blue-border" />
+            <div id="specialty" class="sub-form-group">
+              <label for="specialty" class="label">Specialization:</label>
+              <input type="text" id="specialty" v-model="doctor.specialty" required class="blue-border" />
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             </div>
             <div id="patientBirthdate" class="sub-form-group">
               <label for="patientBirthdate" class="label">Date Of Birth:</label>
-              <input type="date" id="patientBirthdate" v-model="patient.birthdate" required class="blue-border" />
+              <input type="date" id="patientBirthdate" v-model="patient.birthDate" required class="blue-border" />
             </div>
             <div id="patientPhoneNumber" class="sub-form-group">
               <label for="patientPhoneNumber" class="label">Phone Number:</label>
@@ -67,9 +67,9 @@
           </div>
 
           <button type="submit" class="create-account-btn">Create Account</button>
-          <!-- <p class="login-link">
+          <p class="login-link">
         <router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link>
-      </p> -->
+      </p> 
         </form>
       </div>
 
@@ -319,4 +319,3 @@ export default {
   font-size: 20px; /* Adjust the font size as needed */
 }
 </style>
-
