@@ -1,11 +1,14 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.PatientDao;
+import com.techelevator.model.Doctor;
+import com.techelevator.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -15,7 +18,23 @@ public class PatientController {
  @Autowired
     private PatientDao patientDao;
 
-//What do we want for homeview?
-    //what paths do we need and what information for each path?
+    @RequestMapping(method=RequestMethod.POST)
+    public Patient addPatientToDB(@RequestBody Patient patient) {
+        return patientDao.createPatient(patient);
+    }
+    @GetMapping
+    public List<Patient> getAllPatients() {
+        return patientDao.getAllPatients();
+    }
+    @GetMapping("/{patientId}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable int patientId) {
+        Patient patient = patientDao.getPatientById(patientId);
+        if (patient != null) {
+            return new ResponseEntity<>(patient, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }

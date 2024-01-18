@@ -2,10 +2,9 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.DoctorDao;
 import com.techelevator.dao.PatientDao;
+import com.techelevator.model.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -15,7 +14,13 @@ public class DoctorController {
     @Autowired
     private DoctorDao doctorDao;
 
-//What do we want for homeview?
-    //what paths do we need and what information for each path?
+    //how can I retrieve the user id if I am creating them at the same time?
+    //how do I connect this?
+    @RequestMapping( method= RequestMethod.POST)
+    public Doctor addDoctorToDB(@RequestBody Doctor doctor) {
+        return doctorDao.createDoctor(doctor);
+    }
+
+
 
 }

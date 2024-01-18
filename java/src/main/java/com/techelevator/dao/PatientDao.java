@@ -10,4 +10,6 @@ public interface PatientDao {
 
     Patient getPatientById(int patientId);
 
+    public Patient createPatient(Patient newPatient);
+
 }
