@@ -1,79 +1,102 @@
 <template>
-  <div id="register" class="text-center">
-    <form v-on:submit.prevent="register">
-      <h1>Create Account</h1>
-      <div role="alert" v-if="registrationErrors">
-        {{ registrationErrorMsg }}
-      </div>
-      <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
-      </div>
-      <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
-      </div>
-      <div class="form-input-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
-      </div>
-      <div class="form-input-group">
-        <label for="role">Role</label>
-        <select id="role" v-model="user.role" required>
-          <option value=""></option>
+  <div>
+    <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
+    <div id="register" class="flex-container">
+      <div class="form-container">
+        <form v-on:submit.prevent="register" class="registration-form">
+          <h1>Create Account</h1>
+          <div role="alert" v-if="registrationErrors" class="error-message">
+            {{ registrationErrorMsg }}
+          </div>
+          <div class="form-input-group">
+            <label for="username" class="label">Username:</label>
+            <input type="text" id="username" v-model="user.username" required class="blue-border" />
+          </div>
+          <div class="form-input-group">
+            <label for="password" class="label">Password:</label>
+            <input type="password" id="password" v-model="user.password" required class="blue-border" />
+          </div>
+          <div class="form-input-group">
+            <label for="confirmPassword" class="label">Confirm Password:</label>
+            <input type="password" id="confirmPassword" v-model="user.confirmPassword" required class="blue-border" />
+          </div>
+          <div class="form-input-group">
+            <label for="role" class="label">Select Role:</label>
+            <select id="role" v-model="user.role" required class="blue-border">
           <option value="ROLE_PATIENT">Patient</option>
           <option value="ROLE_DOCTOR">Doctor</option>
         </select>
-      </div>
-      <div v-if="user.role === 'ROLE_PATIENT'">
-        <div class="form-input-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" v-model="patient.firstName" required />
-        </div>
-        <div class="form-input-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" v-model="patient.lastName" required />
-        </div>
-        <div class="form-input-group">
-          <label for="birthDate">Birth Date</label>
-          <input type="date" id="birthDate" v-model="patient.birthDate" required />
-        </div>
-        <div class="form-input-group">
-          <label for="phoneNumber">Phone Number</label>
-          <input type="text" id="phoneNumber" v-model="patient.phoneNumber" required />
-        </div>
-        <div class="form-input-group">
-          <label for="email">Email</label>
-          <input type="text" id="email" v-model="patient.email" required />
-        </div>
+          </div>
+          <!-- Additional fields for doctors -->
+          <div v-if="user.role === 'ROLE_DOCTOR'" class="doctor-form-input-group">
+            <div id="doctorFirstName" class="sub-form-group">
+              <label for="doctorFirstName" class="label">First Name:</label>
+              <input type="text" id="doctorFirstName" v-model="doctor.firstName" required class="blue-border" />
+            </div>
+            <div id="doctorLastName" class="sub-form-group">
+              <label for="doctorLastName" class="label">Last Name:</label>
+              <input type="text" id="doctorLastName" v-model="doctor.lastName" required class="blue-border" />
+            </div>
+            <div id="doctorSpecialization" class="sub-form-group">
+              <label for="doctorSpecialization" class="label">Specialization:</label>
+              <input type="text" id="doctorSpecialization" v-model="doctor.specialization" required class="blue-border" />
+            </div>
+          </div>
+
+          <div v-if="user.role === 'ROLE_PATIENT'" class="patient-form-input-group">
+            <div id="patientFirstName" class="sub-form-group">
+              <label for="patientFirstName" class="label">First Name:</label>
+              <input type="text" id="patientFirstName" v-model="patient.firstName" required class="blue-border" />
+            </div>
+            <div id="patientLastName" class="sub-form-group">
+              <label for="patientLastName" class="label">Last Name:</label>
+              <input type="text" id="patientLastName" v-model="patient.lastName" required class="blue-border" />
+            </div>
+            <div id="patientBirthdate" class="sub-form-group">
+              <label for="patientBirthdate" class="label">Date Of Birth:</label>
+              <input type="date" id="patientBirthdate" v-model="patient.birthdate" required class="blue-border" />
+            </div>
+            <div id="patientPhoneNumber" class="sub-form-group">
+              <label for="patientPhoneNumber" class="label">Phone Number:</label>
+              <input type="text" id="patientPhoneNumber" v-model="patient.phoneNumber" required class="blue-border" />
+            </div>
+            <div id="patientEmail" class="sub-form-group">
+              <label for="patientEmail" class="label">Email:</label>
+              <input type="text" id="patientEmail" v-model="patient.email" required class="blue-border" />
+            </div>
+          </div>
+
+          <button type="submit" class="create-account-btn">Create Account</button>
+          <!-- <p class="login-link">
+        <router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link>
+      </p> -->
+        </form>
       </div>
 
-      <div v-if="user.role === 'ROLE_DOCTOR'">
-        <div class="form-input-group">
-          <label for="firstName">First Name</label>
-          <input type="text" id="firstName" v-model="doctor.firstName" required />
-        </div>
-        <div class="form-input-group">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" v-model="doctor.lastName" required />
-        </div>
-        <div class="form-input-group">
-          <label for="specialty">Specialty</label>
-          <input type="text" id="specialty" v-model="doctor.specialty" required />
+       <!-- Blurb section -->
+       <div class="blurb-container">
+        <div class="blurb-section">
+          <div class="blurb-header">
+            <h2>Medicine with a different approach</h2>
+            <img src="src\Images\image.png" alt="Logo" class="blurb-logo" />
+          </div>
+          <p>TimeRx is a comprehensive medical scheduling app designed to streamline and optimize the appointment management process for healthcare providers and their patients.</p>
         </div>
       </div>
-      <button type="submit">Create Account</button>
-      <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
-    </form>
-  </div>
+    </div>
+    </div>
 </template>
 
 <script>
 import authService from '../services/AuthService';
 import PatientService from '../services/PatientService';
 import DoctorService from '../services/DoctorService';
+import Navbar from '../components/NavBar.vue'
 
 export default {
+  components: {
+    Navbar,
+  },
   data() {
     return {
       user: {
@@ -97,6 +120,14 @@ export default {
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
+  },
+  computed: {
+    navbarButtonText() {
+      return "Log In";
+    },
+    navbarButtonDestination() {
+      return "login";
+    }
   },
   methods: {
     async register() {
@@ -190,11 +221,102 @@ export default {
 </script>
 
 <style scoped>
-.form-input-group {
-  margin-bottom: 1rem;
+.text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-label {
-  margin-right: 0.5rem;
+.registration-form {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.form-input-group {
+  margin-bottom: 15px;
+}
+
+.sub-form-group {
+  margin-bottom: 10px;
+}
+
+.blue-border {
+  border: 2px solid #587DFF;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: darkgrey;
+}
+
+.label {
+  color: darkgrey;
+  /* Light gray label text color */
+}
+
+.error-message {
+  color: #587DFF;
+  margin-bottom: 15px;
+}
+
+.login-link {
+  margin-top: 15px;
+}
+
+.create-account-btn {
+  background-color: #587DFF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  height: 100vh;
+  padding: 20px; /* Add padding to create space around the form */
+}
+
+.form-container {
+  max-width: 600px;
+  width: 100%;
+}
+
+.blurb-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.blurb-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally within blurb-section */
+  text-align: center; /* Center text within blurb-section */
+}
+.blurb-header {
+  display: flex;
+  align-items: center;
+  /* margin-bottom: 5px; */
+  font-size: 33px; /* Adjust as needed */
+}
+
+.blurb-logo {
+  width: 200px; /* Adjust the size of the logo */
+  height: auto;
+   /* Adjust as needed */
+}
+.blurb-section p {
+  font-size: 20px; /* Adjust the font size as needed */
 }
 </style>
+
