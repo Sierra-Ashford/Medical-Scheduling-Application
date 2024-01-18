@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcAppointmentDao implements AppointmentDao {
+public class JdbcAppointmentDao implements AppointmentDao{
     private JdbcTemplate jdbcTemplate;
     public JdbcAppointmentDao (JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

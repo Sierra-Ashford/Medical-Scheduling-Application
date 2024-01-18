@@ -8,4 +8,6 @@ public interface OfficeDao {
     List<Office> getAllOffices();
     Office getOfficeById(int officeId);
 
+    Office getOfficeByDoctorId(int doctorId);
+
 }

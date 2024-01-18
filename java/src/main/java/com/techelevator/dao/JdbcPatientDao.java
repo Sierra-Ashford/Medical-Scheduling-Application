@@ -36,6 +36,19 @@ public class JdbcPatientDao implements PatientDao{
         }
         return myPatient;
     }
+
+    @Override
+    public Patient createPatient(Patient newPatient) {
+        String sql = "INSERT INTO patients (user_id, first_name, last_name, birthdate, phone_number, email) " +
+                "VALUES (?, ?, ?, ?, ?, ?) RETURNING patient_id;";
+        int createdPatient = jdbcTemplate.queryForObject(sql, Integer.class, newPatient.getUserId(), newPatient.getFirstName(),
+                newPatient.getLastName(), newPatient.getBirthDate(), newPatient.getPhoneNumber(), newPatient.getEmail());
+
+        newPatient.setPatientId(createdPatient);
+
+        return newPatient;
+    }
+
     public Patient mapRowToPatient(SqlRowSet row){
         Patient myPatient = new Patient();
 

@@ -49,6 +49,16 @@ public class JdbcDoctorDao implements DoctorDao{
         }
         return doctors;
     }
+    @Override
+    public Doctor createDoctor(Doctor newDoctor) {
+        String sql = "INSERT INTO doctors (user_id, first_name, last_name, specialty) VALUES (?, ?, ?, ?) RETURNING doctor_id;";
+        int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(),
+                newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty());
+
+        newDoctor.setDoctorId(createdDoctorId);
+
+        return newDoctor;
+    }
     public Doctor mapRowToDoctor(SqlRowSet row){
         Doctor doctor = new Doctor();
 

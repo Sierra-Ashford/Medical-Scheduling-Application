@@ -9,4 +9,5 @@ public interface DoctorDao {
 
     Doctor getDoctorById(int doctorId);
     List<Doctor> getDoctorsByOfficeId(int officeId);
+    public Doctor createDoctor(Doctor newDoctor);
 }

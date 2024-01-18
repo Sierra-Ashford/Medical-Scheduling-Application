@@ -1,13 +1,13 @@
 BEGIN TRANSACTION;
 
-INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_PATIENT');
+INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DOCTOR');
 
 -- Insert sample data for users
 INSERT INTO users (username, password_hash, role) VALUES
   ('john_doe', 'hashed_password_1', 'patient'),
   ('dr_smith', 'hashed_password_2', 'doctor'),
-  ('admin_user', 'hashed_password_3', 'admin');
+  ('dr_chow', 'hashed_password_3', 'doctor');
 
 -- Insert sample data for doctors
 INSERT INTO doctors (user_id, first_name, last_name, specialty) VALUES

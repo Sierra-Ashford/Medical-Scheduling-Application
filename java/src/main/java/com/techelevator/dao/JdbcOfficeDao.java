@@ -49,4 +49,16 @@ public class JdbcOfficeDao implements OfficeDao {
         office.setOfficeHr(row.getInt("office_hr"));
         return office;
     }
+
+    // Created getOfficeByDoctorId
+    @Override
+    public Office getOfficeByDoctorId(int doctorId) {
+        Office office = null;
+        String sql = "SELECT * FROM office WHERE doctor_id = ?";
+        SqlRowSet row = jdbcTemplate.queryForRowSet(sql, doctorId);
+        if (row.next()) {
+            office = mapRowToOffice(row);
+        }
+        return office;
+    }
 }
