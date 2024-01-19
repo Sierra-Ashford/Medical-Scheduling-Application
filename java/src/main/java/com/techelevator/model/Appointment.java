@@ -1,23 +1,28 @@
 package com.techelevator.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Appointment {
     private int appointmentId;
     private int doctorId;
     private int patientId;
-    private LocalDate appointmentDate;
-    // Need Appointment Time
+    private LocalDateTime appointmentStartTime;
+    private LocalDateTime appointmentEndTime;
     private String notes;
 
-    public Appointment() {};
-    public Appointment(int appointmentId, int doctorId, int patientId, LocalDate appointmentDate, String notes) {
-        this.appointmentId = appointmentId;
-        this.doctorId = doctorId;
-        this.patientId = patientId;
-        this.appointmentDate = appointmentDate;
-        this.notes = notes;
+    public LocalDateTime getAppointmentStartTime() {
+        return appointmentStartTime;
     }
+
+    public LocalDateTime getAppointmentEndTime() {
+        return appointmentEndTime;
+    }
+
+    public void setAppointmentEndTime(LocalDateTime appointmentEndTime) {
+        this.appointmentEndTime = appointmentEndTime;
+    }
+
+    public Appointment() {};
 
     public int getAppointmentId() {
         return appointmentId;
@@ -43,12 +48,8 @@ public class Appointment {
         this.patientId = patientId;
     }
 
-    public LocalDate getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(LocalDate appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setAppointmentStartTime(LocalDateTime appointmentStartTime) {
+        this.appointmentStartTime = appointmentStartTime;
     }
 
     public String getNotes() {

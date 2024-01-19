@@ -6,6 +6,15 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialty;
+    private String headshot;
+
+    public String getHeadshot() {
+        return headshot;
+    }
+
+    public void setHeadshot(String headshot) {
+        this.headshot = headshot;
+    }
 
     public Doctor() {};
     public Doctor(int doctorId, int userId, String firstName, String lastName, String specialty) {

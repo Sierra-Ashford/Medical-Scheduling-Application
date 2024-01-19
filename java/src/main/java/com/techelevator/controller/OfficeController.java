@@ -14,6 +14,8 @@ import java.util.List;
 @RequestMapping("/offices")
 public class OfficeController {
 
+    //Do not need since we are using only one office now:
+
     @Autowired
     private OfficeDao officeDao;
 
@@ -32,7 +34,5 @@ public class OfficeController {
         return officeDao.getOfficeByDoctorId(doctorId);
     }
 
-    // Are we going to have functions to add or remove offices?
-        // Or are we going to have predetermined office locations
 
 }

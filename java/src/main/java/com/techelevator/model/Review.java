@@ -2,7 +2,7 @@ package com.techelevator.model;
 
 public class Review {
     private int reviewId;
-    private int officeId;
+    private int doctorId;
     private String response;
     private int rating;
     private String reviewNote;
@@ -10,7 +10,7 @@ public class Review {
     public Review() {};
     public Review(int reviewId, int officeId, String response, int rating, String reviewNote) {
         this.reviewId = reviewId;
-        this.officeId = officeId;
+        this.doctorId = officeId;
         this.response = response;
         this.rating = rating;
         this.reviewNote = reviewNote;
@@ -25,11 +25,11 @@ public class Review {
     }
 
     public int getOfficeId() {
-        return officeId;
+        return doctorId;
     }
 
     public void setOfficeId(int officeId) {
-        this.officeId = officeId;
+        this.doctorId = officeId;
     }
 
     public String getResponse() {

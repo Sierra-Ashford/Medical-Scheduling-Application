@@ -19,7 +19,7 @@ public class JdbcReviewDao implements ReviewDao {
         Review review = new Review();
 
         review.setReviewId(row.getInt("review_id"));
-        review.setOfficeId(row.getInt("office_id"));
+        review.setOfficeId(row.getInt("doctor_id"));
         review.setResponse(row.getString("response"));
         review.setRating(row.getInt("rating"));
         review.setReviewNote(row.getString("review_note"));
@@ -39,10 +39,10 @@ public class JdbcReviewDao implements ReviewDao {
     }
 
     @Override
-    public List<Review> getReviewsByOfficeId(int officeId) {
+    public List<Review> getReviewsByDoctorId(int doctorId) {
         List<Review> reviews = new ArrayList<>();
-        String sql = "SELECT * FROM reviews WHERE office_id = ?";
-        SqlRowSet row = jdbcTemplate.queryForRowSet(sql, officeId);
+        String sql = "SELECT * FROM reviews WHERE doctor_id = ?";
+        SqlRowSet row = jdbcTemplate.queryForRowSet(sql, doctorId);
         while (row.next()) {
             reviews.add(mapRowToReview(row));
         }

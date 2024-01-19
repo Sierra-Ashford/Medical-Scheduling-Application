@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,23 @@ public class JdbcAppointmentDao implements AppointmentDao{
         appointment.setAppointmentId(row.getInt("appointment_id"));
         appointment.setDoctorId(row.getInt("doctor_id"));
         appointment.setPatientId(row.getInt("patient_id"));
-        appointment.setAppointmentDate(row.getDate("appointment_time").toLocalDate());
+        appointment.setAppointmentStartTime(LocalDateTime.parse(row.getString ("appointment_start_time").replace(' ', 'T')));
+        appointment.setAppointmentEndTime(LocalDateTime.parse(row.getString ("appointment_end_time").replace(' ', 'T')));
         appointment.setNotes(row.getString("notes"));
 
         return appointment;
     }
+
+    public List<Appointment> getAllAppointments() {
+        List<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT * FROM appointments";
+        SqlRowSet row = jdbcTemplate.queryForRowSet(sql);
+        while (row.next()) {
+            appointments.add(mapRowToAppointment(row));
+        }
+        return appointments;
+    }
+
 
     @Override
     public List<Appointment> getAllAppointmentByDoctorId(int doctorId) {
@@ -58,5 +71,20 @@ public class JdbcAppointmentDao implements AppointmentDao{
             appointment = mapRowToAppointment(row);
         }
         return appointment;
+    }
+
+    @Override
+    public Appointment createNewAppointment() {
+        return null;
+    }
+
+    @Override
+    public Appointment updateAppointment(int appointmentId) {
+        return null;
+    }
+
+    @Override
+    public Appointment deleteAppointment(int appointmentId) {
+        return null;
     }
 }
