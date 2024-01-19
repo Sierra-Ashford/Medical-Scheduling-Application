@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
       <img src="src\Images\image.png" alt="Logo" class="logo" />
-      <h1 class="brand">TimeRX</h1>
+      <h1 class="brand">MedConnect</h1>
       <router-link :to="{ name: buttonDestination }" class="login-link">
         {{ buttonText }}
       </router-link>

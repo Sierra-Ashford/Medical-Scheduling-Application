@@ -2,13 +2,14 @@
     <NavBar />
     <div>
         
+
         <h1>Book an Appointment</h1>
         <div>
             <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
             <select name="doctor" id="doctor" style="min-width:200px" v-model=selectedDoctor>
                 <option value=null>Select a Doctor</option>
-                <option value="Harper Lewis">Dr. Harper Lewis</option>
-                <option value="Benjamin Foster">Dr. Benjamin Foster</option>
+                <option v-for="doctor in this.doctors" v-bind:key="doctor">Dr. {{ doctor.firstName }} {{ doctor.lastName }}</option>
+
             </select>
         </div>
         <div v-if="selectedDoctor != null && selectedDoctor != ''">
@@ -18,11 +19,11 @@
         <div v-if="selectedDate != null">
             <label for="possibleOptions">Please select available time slot</label>
             <div v-for="slot in appointmentsForDay" :key="slot">
-             
-                <TimeSlot :data="slot"/>
+
+                <TimeSlot :data="slot" />
 
                 <!-- on-click route to home--give patient success message or error code -->
-               
+
             </div>
         </div>
     </div>
@@ -31,7 +32,7 @@
 <script>
 import TimeSlot from '../components/TimeSlot.vue';
 import NavBar from '../components/NavBar.vue';
-
+import DoctorService from '../services/DoctorService';
 export default {
     components: {
         TimeSlot,
@@ -42,10 +43,11 @@ export default {
             selectedDate: null,
             selectedDoctor: null,
             showTimeslots: false,
+            doctors: [],
             appointmentsForDay: [
                 {
-                    startTime: 8,
-                    endTime: 9,
+                    appointmentStartTime: 8,
+                    appointmentEndTime: 9,
                     isBooked: false
                 },
                 {
@@ -101,7 +103,16 @@ export default {
 
             }
 
+        },
+        getDoctors() {
+            DoctorService.getAllDoctors().then((response)=> {
+                this.doctors = response.data;
+                console.log("doctors", this.doctors);
+            })
         }
+    },
+    beforeMount(){
+        this.getDoctors()
     }
 };
 </script>
