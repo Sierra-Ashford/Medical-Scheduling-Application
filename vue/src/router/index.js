@@ -2,12 +2,16 @@ import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
 // Import components
-import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import BookAppointmentView from '../views/BookAppointmentView.vue'
 import FindDoctorView from '../views/FindDoctorView.vue';
+import MyOffice from '../views/MyOfficeView.vue';
+import Agenda from '../views/AgendaView.vue';
+import PatientHomeView from '../views/PatientHomeView.vue';
+import DoctorHomeView from '../views/DoctorHomeView.vue';
+import DoctorReviews from '../views/DoctorReviewsView.vue';
 
 
 /**
@@ -20,11 +24,51 @@ import FindDoctorView from '../views/FindDoctorView.vue';
  */
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView,
+    path: '/MyReviews',
+    name: 'MyReviews',
+    component: DoctorReviews,
     meta: {
       requiresAuth: true
+    }
+  },
+  {
+    path: '/Agenda',
+    name: 'Agenda',
+    component: Agenda,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/MyOffice',
+    name: 'MyOffice',
+    component: MyOffice,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/patient',
+    name: 'patientHome',
+    component: PatientHomeView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/doctor',
+    name: 'doctorHome',
+    component: DoctorHomeView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: LoginView,
+    meta: {
+      requiresAuth: false
     }
   },
   {

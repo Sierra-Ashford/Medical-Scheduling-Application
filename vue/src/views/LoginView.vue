@@ -10,14 +10,14 @@
         Thank you for registering, please sign in.
       </div>
       <div class="form-input-group">
-        <label for="username">Username</label>
+        <label for="username" class="label">Username</label>
         <input type="text" id="username" v-model="user.username" required  class="blue-border" autofocus />
       </div>
       <div class="form-input-group">
-        <label for="password">Password</label>
+        <label for="password" class="label">Password</label>
         <input type="password" id="password" v-model="user.password" required class="blue-border"  />
       </div>
-      <button type="submit" class="create-account-btn">Sign in</button>
+      <button type="submit" class="sign-in-btn">Sign in</button>
       <!-- <p>
       <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p> -->
     </form>
@@ -48,7 +48,7 @@ export default {
     return {
       user: {
         username: "",
-        password: ""
+        password: "",
       },
       invalidCredentials: false
     };
@@ -63,13 +63,24 @@ export default {
   },
   methods: {
     login() {
+      
+        
       authService
         .login(this.user)
         .then(response => {
-          if (response.status == 200) {
+          if (response.status == 200 ) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+      
+          }
+          if(this.$store.getters.getRole === 'ROLE_USER') {
+              this.$router.push("/");
+          } else if (this.$store.getters.getRole === 'ROLE_ADMIN'){
+              this.$router.push("/")
+          } else if (this.$store.getters.getRole === "ROLE_PATIENT") {
+            this.$router.push("/patient");
+          } else if (this.$store.getters.getRole === 'ROLE_DOCTOR') {
+            this.$router.push("/doctor");
           }
         })
         .catch(error => {
@@ -79,6 +90,7 @@ export default {
             this.invalidCredentials = true;
           }
         });
+        
     }
   }
 };
@@ -106,6 +118,19 @@ export default {
 .sub-form-group {
   margin-bottom: 10px;
 }
+.nav-link {
+    color: #888;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 18px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #333;
+    border-bottom: 2px solid #333;
+  }
 
 .blue-border {
   border: 2px solid #587DFF;
@@ -122,7 +147,7 @@ export default {
 }
 
 .error-message {
-  color: 587DFF;
+  color: #587DFF;
   margin-bottom: 15px;
 }
 
@@ -130,25 +155,35 @@ export default {
   margin-top: 15px;
 }
 
-.create-account-btn {
-  background-color: #587DFF;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
+.sign-in-btn {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #587DFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .sign-in-btn:hover {
+    background-color: #B6E2EF;
+  }
 
 
 
 .flex-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start;
+  /* Align items to the top */
   height: 100vh;
-  padding: 20px; /* Add padding to create space around the form */
+  padding: 20px;
+  /* Add padding to create space around the form */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .form-container {
@@ -164,22 +199,28 @@ export default {
 .blurb-section {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally within blurb-section */
-  text-align: center; /* Center text within blurb-section */
+  align-items: center;
+  /* Center horizontally within blurb-section */
+  text-align: center;
+  /* Center text within blurb-section */
 }
+
 .blurb-header {
   display: flex;
   align-items: center;
   /* margin-bottom: 5px; */
-  font-size: 33px; /* Adjust as needed */
+  font-size: 30px;
+  /* Adjust as needed */
 }
 
 .blurb-logo {
-  width: 200px; /* Adjust the size of the logo */
+  width: 200px;
+  /* Adjust the size of the logo */
   height: auto;
-   /* Adjust as needed */
+  /* Adjust as needed */
 }
+
 .blurb-section p {
-  font-size: 20px; /* Adjust the font size as needed */
-}
-</style>
+  font-size: 20px;
+  /* Adjust the font size as needed */
+}</style>

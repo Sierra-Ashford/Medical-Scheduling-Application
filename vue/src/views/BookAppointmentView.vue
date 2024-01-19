@@ -1,5 +1,5 @@
 <template>
-    <NavBar />
+   <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div>
         
 
@@ -92,6 +92,14 @@ export default {
                 }
             ]
         }
+    },
+    computed: {
+      navbarButtonText() {
+        return "Log Out";
+      },
+      navbarButtonDestination() {
+        return "logout";
+      }
     },
     methods: {
         dateSelected() {

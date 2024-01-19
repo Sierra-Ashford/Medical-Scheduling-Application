@@ -67,9 +67,9 @@
           </div>
 
           <button type="submit" class="create-account-btn">Create Account</button>
-          <p class="login-link">
+          <!-- <p class="login-link">
         <router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link>
-      </p> 
+      </p>  -->
         </form>
       </div>
 
@@ -267,15 +267,22 @@ export default {
 }
 
 .create-account-btn {
-  background-color: #587DFF;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #587DFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .create-account-btn:hover {
+    background-color: #B6E2EF;
+  }
 
 
 
@@ -285,6 +292,7 @@ export default {
   align-items: flex-start; /* Align items to the top */
   height: 100vh;
   padding: 20px; /* Add padding to create space around the form */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .form-container {
@@ -307,7 +315,7 @@ export default {
   display: flex;
   align-items: center;
   /* margin-bottom: 5px; */
-  font-size: 33px; /* Adjust as needed */
+  font-size: 30px; /* Adjust as needed */
 }
 
 .blurb-logo {
@@ -319,3 +327,4 @@ export default {
   font-size: 20px; /* Adjust the font size as needed */
 }
 </style>
+

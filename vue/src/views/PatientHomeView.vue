@@ -1,7 +1,7 @@
 <template>
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div class="home">
-      <h1> Doctor Details</h1>
+      <h1> Patient Home</h1>
     </div>
   </template>
   
@@ -21,7 +21,4 @@
     },
   };
   </script>
-
-  <style>
-
-</style>
+  

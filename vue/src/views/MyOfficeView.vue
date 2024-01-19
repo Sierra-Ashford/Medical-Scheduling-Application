@@ -1,15 +1,18 @@
 <template>
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div class="home">
-      <h1> Doctor Details</h1>
+      <my-office/>
+
     </div>
   </template>
   
   <script>
   import Navbar from '../components/NavBar.vue'
+  import MyOffice from '../components/MyOffice.vue'
   export default {
     components: {
       Navbar,
+      MyOffice,
     },
     computed: {
       navbarButtonText() {
@@ -21,7 +24,3 @@
     },
   };
   </script>
-
-  <style>
-
-</style>
