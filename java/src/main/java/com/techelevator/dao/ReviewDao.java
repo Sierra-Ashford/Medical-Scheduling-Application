@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ReviewDao {
     Review getReviewById(int reviewId);
-    List<Review> getReviewsByOfficeId(int officeId);
+    List<Review> getReviewsByDoctorId(int doctorId);
 
 }

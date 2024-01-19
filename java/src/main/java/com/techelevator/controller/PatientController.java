@@ -18,14 +18,19 @@ public class PatientController {
  @Autowired
     private PatientDao patientDao;
 
+    //tested in postman
     @RequestMapping(method=RequestMethod.POST)
     public Patient addPatientToDB(@RequestBody Patient patient) {
         return patientDao.createPatient(patient);
     }
+
+    //tested in postman
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public List<Patient> getAllPatients() {
         return patientDao.getAllPatients();
     }
+
+    //tested in postman
     @GetMapping("/{patientId}")
     public ResponseEntity<Patient> getPatientById(@PathVariable int patientId) {
         Patient patient = patientDao.getPatientById(patientId);
@@ -35,6 +40,8 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    //maybe a method to get all patients by doctor id?
 
 
 }
