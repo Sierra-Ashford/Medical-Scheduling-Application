@@ -20,6 +20,7 @@ public class JdbcPrescriptionDao implements PrescriptionDao{
 
         prescription.setPrescriptionId(row.getInt("prescription_id"));
         prescription.setPatientId(row.getInt("patient_id"));
+        prescription.setDoctorId(row.getInt("doctor_id"));
         prescription.setName(row.getString("name"));
         prescription.setCost(row.getInt("cost"));
 
@@ -40,11 +41,35 @@ public class JdbcPrescriptionDao implements PrescriptionDao{
     @Override
     public Prescription getPrescriptionById(int prescriptionId) {
         Prescription prescription = null;
-        String sql = "SELECT * FROM review WHERE prescription_id = ?";
+        String sql = "SELECT * FROM prescriptions WHERE prescription_id = ?";
         SqlRowSet row = jdbcTemplate.queryForRowSet(sql, prescriptionId);
         if (row.next()) {
             prescription = mapRowToPrescription(row);
         }
         return prescription;
     }
+
+    @Override
+    public Prescription createPrescription(Prescription prescription) {
+        String sql = "INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES (?, ?, ?, ?) RETURNING prescription_id";
+        int newPrescriptionId = jdbcTemplate.queryForObject(sql, Integer.class,
+                prescription.getPatientId(), prescription.getDoctorId(), prescription.getName(), prescription.getCost());
+
+        return getPrescriptionById(newPrescriptionId);
+    }
+
+    @Override
+    public void deletePrescription(int prescriptionId) {
+        String sql = "DELETE FROM prescriptions WHERE prescription_id = ?";
+        jdbcTemplate.update(sql, prescriptionId);
+    }
+
+    @Override
+    public Prescription updatePrescription(Prescription prescription) {
+        String sql = "UPDATE prescriptions SET patient_id = ?, doctor_id = ?, name = ?, cost = ? WHERE prescription_id = ?";
+        jdbcTemplate.update(sql, prescription.getPatientId(), prescription.getDoctorId(), prescription.getName(), prescription.getCost(), prescription.getPrescriptionId());
+
+        return getPrescriptionById(prescription.getPrescriptionId());
+    }
+
 }

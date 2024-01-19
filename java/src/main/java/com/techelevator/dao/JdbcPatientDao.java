@@ -49,6 +49,14 @@ public class JdbcPatientDao implements PatientDao{
         return newPatient;
     }
 
+    @Override
+    public Patient updatePatient(Patient patient) {
+        String sql = "UPDATE patients SET user_id = ?, first_name = ?, last_name = ?, birthdate = ? , phone_number = ?, email = ? WHERE patient_id = ?";
+        jdbcTemplate.update(sql, patient.getUserId(), patient.getFirstName(), patient.getLastName(), patient.getBirthDate(), patient.getPhoneNumber(), patient.getEmail(), patient.getPatientId());
+
+        return getPatientById(patient.getPatientId());
+    }
+
     public Patient mapRowToPatient(SqlRowSet row){
         Patient myPatient = new Patient();
 

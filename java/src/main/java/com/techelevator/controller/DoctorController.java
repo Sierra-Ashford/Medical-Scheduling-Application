@@ -3,7 +3,10 @@ package com.techelevator.controller;
 import com.techelevator.dao.DoctorDao;
 import com.techelevator.dao.PatientDao;
 import com.techelevator.model.Doctor;
+import com.techelevator.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +25,7 @@ public class DoctorController {
         return doctorDao.createDoctor(doctor);
     }
     //tested in postman
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Doctor> getAllDoctors() {
         return doctorDao.getAllDoctors();
     }
@@ -32,12 +35,17 @@ public class DoctorController {
     public Doctor getDoctorById(@PathVariable int doctorId) {
         return doctorDao.getDoctorById(doctorId);
     }
-    // this one too not sure if this should be in doctors controller
-    // We don't need this since we have one office now
-    @RequestMapping("/{officeId}")
-    public List<Doctor> getDoctorsByOfficeId(@PathVariable int officeId) {
-        return doctorDao.getDoctorsByOfficeId(officeId);
+
+    @RequestMapping(path = "/{doctorId}", method = RequestMethod.DELETE)
+    public void deleteDoctor(@PathVariable int doctorId) {
+        doctorDao.deleteDoctor(doctorId);
     }
 
+    @RequestMapping(path = "/{doctorId}", method = RequestMethod.PUT)
+    public ResponseEntity<Doctor> updateDoctor(@RequestBody Doctor doctor, @PathVariable int doctorId) {
+        doctor.setDoctorId(doctorId);
+
+        return new ResponseEntity<>(doctorDao.updateDoctor(doctor), HttpStatus.OK);
+    }
 
 }

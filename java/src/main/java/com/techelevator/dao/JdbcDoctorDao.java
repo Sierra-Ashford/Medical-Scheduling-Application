@@ -63,6 +63,21 @@ public class JdbcDoctorDao implements DoctorDao{
 
         return newDoctor;
     }
+
+    @Override
+    public Doctor updateDoctor(Doctor doctor) {
+        String sql = "UPDATE doctors SET user_id = ?, first_name = ?, last_name = ?, specialty = ? , headshot = ? WHERE doctor_id = ?";
+        jdbcTemplate.update(sql, doctor.getUserId(), doctor.getFirstName(), doctor.getLastName(), doctor.getSpecialty(), doctor.getHeadshot(), doctor.getDoctorId());
+
+        return getDoctorById(doctor.getDoctorId());
+    }
+
+    @Override
+    public void deleteDoctor(int doctorId) {
+        String sql = "DELETE FROM doctors WHERE doctor_id = ?";
+        jdbcTemplate.update(sql, doctorId);
+    }
+
     public Doctor mapRowToDoctor(SqlRowSet row){
         Doctor doctor = new Doctor();
 

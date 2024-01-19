@@ -25,7 +25,7 @@ public class PatientController {
     }
 
     //tested in postman
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Patient> getAllPatients() {
         return patientDao.getAllPatients();
     }
@@ -41,7 +41,13 @@ public class PatientController {
         }
     }
 
-    //maybe a method to get all patients by doctor id?
+    @RequestMapping(path = "/{patientId}", method = RequestMethod.PUT)
+    public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient, @PathVariable int patientId) {
+        patient.setPatientId(patientId);
+
+        return new ResponseEntity<>(patientDao.updatePatient(patient), HttpStatus.OK);
+    }
+
 
 
 }

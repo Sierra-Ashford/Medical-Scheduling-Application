@@ -40,9 +40,9 @@ INSERT INTO appointments (doctor_id, patient_id, appointment_start_time, appoint
 (2, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation');
 
 -- Sample data for prescriptions table
-INSERT INTO prescriptions (patient_id, name, cost) VALUES
-(1, 'Medicine A', 30),
-(2, 'Medicine B', 25);
+INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES
+(1, 2, 'Medicine A', 30),
+(2, 1, 'Medicine B', 25);
 
 -- Sample data for reviews table
 INSERT INTO reviews (doctor_id, response, rating, review_note) VALUES

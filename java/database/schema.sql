@@ -57,17 +57,19 @@ CREATE TABLE appointments (
     appointment_end_time timestamp,
     notes varchar(50) NOT NULL,
     CONSTRAINT PK_appointment PRIMARY KEY (appointment_id),
-    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE,
     CONSTRAINT FK_patient_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
 );
 
 CREATE TABLE prescriptions (
     prescription_id SERIAL,
     patient_id int,
+    doctor_id int,
     name varchar(50) NOT NULL,
     cost int NOT NULL,
     CONSTRAINT PK_prescriptions PRIMARY KEY (prescription_id),
-    CONSTRAINT FK_patient_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
+    CONSTRAINT FK_patient_id FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE
 );
 
 CREATE TABLE reviews (
@@ -77,7 +79,7 @@ CREATE TABLE reviews (
     rating int,
     review_note varchar(200),
     CONSTRAINT PK_review_id PRIMARY KEY (review_id),
-    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE
 );
 
 CREATE TABLE availability (
@@ -87,7 +89,7 @@ CREATE TABLE availability (
     start_time time,
     end_time time,
     CONSTRAINT PK_availability_id PRIMARY KEY (availability_id),
-    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id),
+    CONSTRAINT FK_doctor_id FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id) ON DELETE CASCADE,
     CONSTRAINT FK_day_id FOREIGN KEY (day_id) REFERENCES daysOfTheWeek(day_id)
 );
 

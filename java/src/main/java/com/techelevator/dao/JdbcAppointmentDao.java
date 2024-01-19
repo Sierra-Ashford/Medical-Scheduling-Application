@@ -74,17 +74,27 @@ public class JdbcAppointmentDao implements AppointmentDao{
     }
 
     @Override
-    public Appointment createNewAppointment() {
-        return null;
+    public Appointment createNewAppointment(Appointment appointment) {
+        String sql = "INSERT INTO appointments (doctor_id, patient_id, appointment_start_time, appointment_end_time, notes) VALUES (?, ?, ?, ?, ?) RETURNING appointment_id";
+        int newAppointmentId = jdbcTemplate.queryForObject(sql, Integer.class,
+                appointment.getDoctorId(), appointment.getPatientId(), appointment.getAppointmentStartTime()
+                , appointment.getAppointmentEndTime(), appointment.getNotes());
+
+        return getAppointmentById(newAppointmentId);
     }
 
     @Override
-    public Appointment updateAppointment(int appointmentId) {
-        return null;
+    public Appointment updateAppointment(Appointment appointment) {
+        String sql = "UPDATE appointments SET doctor_id = ?, patient_id = ?, appointment_start_time = ?, appointment_end_time = ? , notes = ? WHERE appointment_id = ?";
+        jdbcTemplate.update(sql, appointment.getDoctorId(), appointment.getPatientId(), appointment.getAppointmentStartTime()
+                , appointment.getAppointmentEndTime(), appointment.getNotes(), appointment.getAppointmentId());
+
+        return getAppointmentById(appointment.getAppointmentId());
     }
 
     @Override
-    public Appointment deleteAppointment(int appointmentId) {
-        return null;
+    public void deleteAppointment(int appointmentId) {
+        String sql = "DELETE FROM appointments WHERE appointment_id = ?";
+        jdbcTemplate.update(sql, appointmentId);
     }
 }
