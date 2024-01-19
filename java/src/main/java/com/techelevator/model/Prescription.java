@@ -3,15 +3,25 @@ package com.techelevator.model;
 public class Prescription {
     private int prescriptionId;
     private int patientId;
+    private int doctorId;
     private String name;
     private int cost;
 
     public Prescription() {};
-    public Prescription(int prescriptionId, int patientId, String name, int cost) {
+    public Prescription(int prescriptionId, int patientId, int doctorId, String name, int cost) {
         this.prescriptionId = prescriptionId;
         this.patientId = patientId;
+        this.doctorId = doctorId;
         this.name = name;
         this.cost = cost;
+    }
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
     }
 
     public int getPrescriptionId() {

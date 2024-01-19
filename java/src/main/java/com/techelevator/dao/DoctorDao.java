@@ -10,4 +10,7 @@ public interface DoctorDao {
     Doctor getDoctorById(int doctorId);
     List<Doctor> getDoctorsByOfficeId(int officeId);
     public Doctor createDoctor(Doctor newDoctor);
+
+    Doctor updateDoctor(Doctor doctor);
+    void deleteDoctor(int doctorId);
 }

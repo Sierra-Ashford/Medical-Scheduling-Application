@@ -24,12 +24,12 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public int getOfficeId() {
+    public int getDoctorId() {
         return doctorId;
     }
 
-    public void setOfficeId(int officeId) {
-        this.doctorId = officeId;
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getResponse() {
