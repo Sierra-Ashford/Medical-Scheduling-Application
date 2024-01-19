@@ -1,0 +1,15 @@
+{
+  "name": "final-capstone-team-4",
+  "version": "1.0.0",
+  "description": "​\r This directory contains all of the starter projects for the final capstone.\r ​\r Each project contains instructions that provides information about the starting code and explains how to get started with the final capstone project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.techelevator.com/campuses/nlr/oct-2023/java-green/student-pairs/final-capstone-ws/final-capstone-team-4.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
