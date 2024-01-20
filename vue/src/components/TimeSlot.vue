@@ -15,10 +15,10 @@
                             flex-direction:column; 
                             flex-basis:60%; 
                             flex:1">
-                            {{ data.startTime }}:00 - {{ data.endTime }}:00
+                            {{ appointment.startTime }} to {{ appointment.endTime }}
                         </h3>
-                        <button v-if=!data.isBooked v-on:click="bookAppointment">Book this time</button>
-                        <button v-if=data.isBooked v-bind:disabled="data.isBooked">UNAVAILABLE</button>
+                        <button v-on:click="() => { bookAppointment(appointment); $emit('appt-booked'); console.log('event emitted')}">Book this time</button>
+                        <!-- <button v-if=appointment.isBooked v-bind:disabled="data.isBooked">UNAVAILABLE</button> -->
                     </div>
 
                 </div>
@@ -27,17 +27,35 @@
 </template>
 
 <script>
+import appointmentsService from '../services/AppointmentsService.js';
+
  export default {
     props: {
-      data: {
+      appointment: {
         type: Object,
         default: null,
+      },
+      patientId: {
+        type: Number,
+        default: null
+      },
+      doctorId: {
+        type: Number,
+        default: null
       }
     
     },
     methods:{
-        bookAppointment(){
-            console.log("Booking time for " + this.data.startTime)
+        async bookAppointment(appointment){
+            await appointmentsService.create({
+                doctorId: this.doctorId,
+                patientId: this.patientId,
+                appointmentStartTime: appointment.startTime,
+                appointmentEndTime: appointment.endTime,
+                notes: ''
+            });
+
+
         }
     }
   };

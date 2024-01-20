@@ -6,6 +6,8 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
+      doctorId: undefined,
+      patientId: undefined,
       currentLoggedInPatient: "",
     },
     getters: {
@@ -13,7 +15,7 @@ export function createStore(currentToken, currentUser) {
         if(Object.keys(state.user).length != 0){
           return state.user.authorities[0].name;
         }
-      }
+      },
       },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -26,9 +28,19 @@ export function createStore(currentToken, currentUser) {
       
         localStorage.setItem('user', JSON.stringify(user));
       },
+      SET_DOCTOR_ID(state, id) {
+        state.doctorId = id;
+        localStorage.setItem('doctorId', JSON.stringify(id));
+      },
+      SET_PATIENT_ID(state, id) {
+        state.patientId = id;
+        localStorage.setItem('patientId', JSON.stringify(id));
+      },
       LOGOUT(state) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('doctorId');
+        localStorage.removeItem('patientId');
         state.token = '';
         state.user = {};
         axios.defaults.headers.common = {};

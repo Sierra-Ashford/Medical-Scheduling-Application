@@ -6,12 +6,13 @@
       </div>
       <router-link v-if="showPatientLink" to="/patient"  class="nav-link">Home</router-link>
       <router-link v-if="showPatientLink" to="/find"  class="nav-link">Find a Doctor</router-link>
+      <router-link v-if="showPatientLink" to="/book-appointment"  class="nav-link">Schedule An Appointment</router-link>
      <!-- <router-link v-if="showPatientLink" to="/bookAppointment"  class="nav-link">Book Appointment</router-link> -->
       <!-- <router-link v-if="showPatientLink" to="/reviews"  class="nav-link">Settings</router-link> -->
 
       <router-link v-if="showDoctorLink" to="/doctor"  class="nav-link">Home</router-link>
       <router-link v-if="showDoctorLink" to="/MyOffice"  class="nav-link">My Office</router-link>
-      <router-link v-if="showDoctorLink" to="/Agenda"  class="nav-link">Agenda</router-link>
+      <router-link v-if="showDoctorLink" to="/set-my-hours"  class="nav-link">Set My Hours</router-link>
       <router-link v-if="showDoctorLink" to="/MyReviews"  class="nav-link">Reviews</router-link>
       <!-- <router-link v-if="showDoctorLink" to="/Notifications"  class="nav-link">Notifications</router-link> -->
       <router-link :to="{ name: buttonDestination }" class="login-link">
@@ -19,6 +20,8 @@
       </router-link>
     </div>
   </template>
+
+
   
   <script>
   export default {

@@ -21,8 +21,8 @@ INSERT INTO users (username, password_hash, role) VALUES
 
 -- Sample data for doctors table
 INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
-(3, 'John', 'Doe', 'Cardiology', 'cardiology.jpg'),
-(3, 'Jane', 'Smith', 'Pediatrics', 'pediatrics.jpg');
+(3, 'John', 'Doe', 'Cardiology', 'https://imgur.com/0PpiqE8'),
+(3, 'Jane', 'Smith', 'Pediatrics', 'https://imgur.com/0PpiqE8');
 
 -- Sample data for office table
 INSERT INTO office (name, address, phone_number, cost_per_hr, office_hr) VALUES

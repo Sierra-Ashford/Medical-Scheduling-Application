@@ -6,7 +6,7 @@ export default {
     return axios.post('/patients', patient)
   },
   getAllPatients(){
-    return axios.get('/patients/all');
+    return axios.get('/patients');
   },
   getPatientById(patientId){
     return axios.get('/patients/' + patientId);

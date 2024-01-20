@@ -8,7 +8,7 @@ import RegisterView from '../views/RegisterView.vue';
 import BookAppointmentView from '../views/BookAppointmentView.vue'
 import FindDoctorView from '../views/FindDoctorView.vue';
 import MyOffice from '../views/MyOfficeView.vue';
-import Agenda from '../views/AgendaView.vue';
+import SetMyHours from '../views/SetMyHoursView.vue';
 import PatientHomeView from '../views/PatientHomeView.vue';
 import DoctorHomeView from '../views/DoctorHomeView.vue';
 import DoctorReviews from '../views/DoctorReviewsView.vue';
@@ -32,9 +32,9 @@ const routes = [
     }
   },
   {
-    path: '/Agenda',
-    name: 'Agenda',
-    component: Agenda,
+    path: '/set-my-hours',
+    name: 'SetMyHours',
+    component: SetMyHours,
     meta: {
       requiresAuth: true
     }

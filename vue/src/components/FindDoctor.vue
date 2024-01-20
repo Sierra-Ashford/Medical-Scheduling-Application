@@ -1,3 +1,5 @@
+
+
 <template>
     <div class="find-doctor-container">
       <div class="search-bar">
@@ -28,6 +30,7 @@
         doctors: [],
         loading: false
       };
+      
     },
     methods: {
       async searchDoctors() {
@@ -111,4 +114,8 @@
     background-color: #0056b3;
   }
   </style>
+   --> -->
+   
+
+  
   
