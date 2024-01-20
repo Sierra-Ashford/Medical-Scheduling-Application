@@ -17,32 +17,50 @@ INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpUL
 INSERT INTO users (username, password_hash, role) VALUES
 ('user1', 'hashed_password_1', 'ROLE_PATIENT'),
 ('user2', 'hashed_password_2', 'ROLE_PATIENT'),
-('user3', 'hashed_password_3', 'ROLE_DOCTOR');
+('user3', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user4', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user5', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user6', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user7', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user8', 'hashed_password_3', 'ROLE_DOCTOR'),
+('user9', 'hashed_password_3', 'ROLE_DOCTOR');
 
 -- Sample data for doctors table
 INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
-(3, 'John', 'Doe', 'Cardiology', 'https://imgur.com/0PpiqE8'),
-(3, 'Jane', 'Smith', 'Pediatrics', 'https://imgur.com/0PpiqE8');
+(3, 'Alexander ', 'Bennett', 'Cardiology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06ESKZFE3W-aaeadfd9f0/image_480_480.png'),
+(4, 'Harper ', 'Lewis', 'Pediatrics', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E9KXK97H-e95ccf5319/image_720_720.png'),
+(5, 'Noah  ', 'Foster', 'Neurology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CNT8J2-5ae3afc1f3/image_720.png'),
+(6, 'Sebastian  ', 'Patel', 'Physical Therapy', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06DWFAECVD-9dce1ce3ee/image_720.png'),
+(7, 'Aria  ', 'Williams', 'Nutrition', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CK351U-b2ec5d86ac/image_720.png'),
+(8, 'Liam  ', 'Mitchell', 'General Practitioner', 'https://files.slack.com/files-pri/T0GNFLF6D-F06DWF6U7AT/image.png'),
+(9, 'Grace  ', 'Taylor', 'OBGYN', 'https://files.slack.com/files-pri/T0GNFLF6D-F06E4CF8LUE/image.png');
+
 
 -- Sample data for office table
 INSERT INTO office (name, address, phone_number, cost_per_hr, office_hr) VALUES
-('Cardiology Clinic', '123 Main St, Cityville', '555-1234', 150, 8),
-('Pediatrics Center', '456 Oak St, Townsville', '555-5678', 120, 9);
+('TE Wellness Center', '123 Main St, Cityville', '555-1234', 150, 8);
+
 
 -- Sample data for patients table
 INSERT INTO patients (user_id, first_name, last_name, birthdate, phone_number, email) VALUES
 (1, 'Alice', 'Johnson', '1990-05-15', '555-1111', 'alice@email.com'),
-(2, 'Bob', 'Williams', '1985-08-20', '555-2222', 'bob@email.com');
+(2, 'Bob', 'Williams', '1985-08-20', '555-2222', 'bob@email.com'),
+(3, 'Isabella', 'Wang', '1995-11-02', '555-3333', 'isabella@email.com'),
+(4, 'Oliver', 'Ramirez', '1980-01-01', '555-4444', 'oliver@email.com');
 
 -- Sample data for appointments table
 INSERT INTO appointments (doctor_id, patient_id, appointment_start_time, appointment_end_time, notes) VALUES
 (1, 1, '2024-02-01T10:00:00', '2024-02-01T11:00:00', 'Cardiology Checkup'),
-(2, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation');
+(2, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation'),
+(6, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Annual Exam'),
+(4, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Physical Therapy Session');
 
 -- Sample data for prescriptions table
 INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES
-(1, 2, 'Medicine A', 30),
-(2, 1, 'Medicine B', 25);
+(1, 2, 'Prednisone', 120),
+(2, 1, 'Warfarin', 205),
+(3, 6, 'Amoxicillin', 57),
+(4, 3, 'Amlodipine', 89);
 
 -- Sample data for reviews table
 INSERT INTO reviews (doctor_id, response, rating, review_note) VALUES
