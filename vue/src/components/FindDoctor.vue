@@ -102,7 +102,7 @@
   }
   
   .doctor-card button {
-    background-color: #007bff;
+    background-color: #2720FF;
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -111,10 +111,10 @@
   }
   
   .doctor-card button:hover {
-    background-color: #0056b3;
+    background-color: #B6E2EF;
   }
   </style>
-   --> -->
+  
    
 
   

@@ -1,7 +1,7 @@
 <template>
     <div class="grid-container">
       <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
-      
+      <NotificationsList></NotificationsList>
       <div class="container">
         <h1 class="welcome">Welcome!</h1>
         <img src="src\images\Daily-Schedule-Light-Blue.jpg" class="placeHolder">
@@ -12,11 +12,11 @@
     
     <script>
     import Navbar from '../components/NavBar.vue'
-    import notifications from '../components/Notifications.vue';
+    import NotificationsList from '../components/NotificationsList.vue';
     export default {
       components: {
         Navbar,
-        notifications,
+        NotificationsList,
       },
       computed: {
         navbarButtonText() {
