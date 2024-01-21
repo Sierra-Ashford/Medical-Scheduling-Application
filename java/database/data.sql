@@ -2,13 +2,13 @@ BEGIN TRANSACTION;
 
 INSERT INTO daysOfTheWeek (day_id, day_description)
 VALUES
-    (1, 'SUNDAY'),
-    (2, 'MONDAY'),
-    (3, 'TUESDAY'),
-    (4, 'WEDNESDAY'),
-    (5, 'THURSDAY'),
-    (6, 'FRIDAY'),
-    (7, 'SATURDAY');
+    (0, 'SUNDAY'),
+    (1, 'MONDAY'),
+    (2, 'TUESDAY'),
+    (3, 'WEDNESDAY'),
+    (4, 'THURSDAY'),
+    (5, 'FRIDAY'),
+    (6, 'SATURDAY');
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_PATIENT');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_DOCTOR');

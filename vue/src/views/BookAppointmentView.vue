@@ -1,7 +1,7 @@
 <template>
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div>
-        <BookAppointments></BookAppointments>>
+        <BookAppointments></BookAppointments>
     </div>
   </template>
   
