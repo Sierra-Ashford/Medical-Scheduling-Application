@@ -1,6 +1,7 @@
 <template>
-         <h1>Book an Appointment</h1>
-         <div>
+        <h1 class="font-style-center">How can we help!</h1>
+        <h2 class="font-style">Book an Appointment</h2>
+        <div>
              <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
              <select name="doctor" id="doctor" style="min-width:200px" v-model=selectedDoctor @change="onSelectedDoctorChanged">
                  <option value="">Select a Doctor</option>
@@ -119,3 +120,18 @@
      }
  };
  </script>
+ <style>
+ .font-style {
+     padding-bottom: 10px;
+     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+ 
+ 
+ }
+ 
+ .font-style-center {
+ 
+     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+     text-align: center;
+     color: #587DFF;
+ }</style>
+ 
