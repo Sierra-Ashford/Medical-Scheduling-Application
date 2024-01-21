@@ -21,7 +21,7 @@
         <button
           v-on:click="() => { bookAppointment(appointment); $emit('appt-booked'); console.log('event emitted') }">Book this
           time</button>
-        <button v-if=appointment.isBooked v-bind:disabled="data.isBooked">UNAVAILABLE</button>
+        <button v-if="appointment.isBooked" v-bind:disabled="data.isBooked">UNAVAILABLE</button>
 
       </div>
 
