@@ -36,6 +36,15 @@ public class AppointmentController {
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
+//    @RequestMapping(path = "/doctors/{appointmentId}", method = RequestMethod.GET)
+//    public Appointment getAllAppointmentByDoctorId(@PathVariable int doctorId) {
+//        return appointmentDao.getAppointmentById(doctorId);
+//    }
+    @RequestMapping(path = "/doctors/{doctorId}", method = RequestMethod.GET)
+    public List<Appointment> getAllAppointmentsByDoctorId(@PathVariable int doctorId) {
+        return appointmentDao.getAllAppointmentByDoctorId(doctorId);
+    }
+
     @RequestMapping(path = "/{appointmentId}", method = RequestMethod.GET)
     public Appointment getAvailabilityById(@PathVariable int appointmentId) {
         return appointmentDao.getAppointmentById(appointmentId);

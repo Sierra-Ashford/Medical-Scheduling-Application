@@ -15,40 +15,26 @@
                             flex-direction:column; 
                             flex-basis:60%; 
                             flex:1">
-          {{ appointment.startTime.toTimeString().split(' ')[0] }} to {{ appointment.endTime.toTimeString().split(' ')[0]
-          }}
+          {{getTimeslotString(timeslot)}}
         </h3>
         <button
           v-on:click="() => { bookAppointment(appointment); $emit('appt-booked'); console.log('event emitted') }">Book this
           time</button>
-        <button v-if="appointment.isBooked" v-bind:disabled="data.isBooked">UNAVAILABLE</button>
-
+        <!-- <button v-if=appointment.isBooked v-bind:disabled="data.isBooked">UNAVAILABLE</button> -->
       </div>
 
     </div>
+
   </div>
-
-
-  <footer>
-
- <!-- route to patient home with below confirmation message when patient chooses time slot for appointment -->
-        <!-- on-click route to home-->
-        <!-- sent doctor notification upon appointment being booked with them -->
-
-
-       <router-link :to="{ name: 'patientHome' }"> <button v-on:click-="showAlert"> Submit </button></router-link>
-
-       
-
-  </footer>
 </template>
 
 <script>
 import appointmentsService from '../services/AppointmentsService.js';
+import { getHours, getMinutes } from 'date-fns';
 
 export default {
   props: {
-    appointment: {
+    timeslot: {
       type: Object,
       default: null,
     },
@@ -63,6 +49,16 @@ export default {
 
   },
   methods: {
+    getTimeslotString(timeslot) {
+      console.log(timeslot);
+
+      const timeslotStartTimeHours = getHours(timeslot.startDateTime).toString();
+      const timeslotStartTimeMinutes = getMinutes(timeslot.startDateTime).toString().padStart(2, '0');
+      const timeslotEndTimeHours = getHours(timeslot.endDateTime).toString();
+      const timeslotEndTimeMinutes = getMinutes(timeslot.endDateTime).toString().padStart(2, '0');
+
+      return `${timeslotStartTimeHours}:${timeslotStartTimeMinutes} to ${timeslotEndTimeHours}:${timeslotEndTimeMinutes}`;
+    },
     async bookAppointment(appointment) {
       await appointmentsService.create({
         doctorId: this.doctorId,
@@ -71,16 +67,8 @@ export default {
         appointmentEndTime: appointment.endTime,
         notes: ''
       });
-
-
     }
-  },
-  // <!-- on-click give patient success message or error code -->
-  showAlert() {
-    alert('We look forward to caring for you! If you need assistance with your recent booking please contact our office.')
   }
 };
-
 </script>
 
-<style scoped></style>
