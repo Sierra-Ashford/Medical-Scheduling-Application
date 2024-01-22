@@ -50,6 +50,20 @@ export default {
                 this.buildNotificationsList(this.appointments);
             });
         },
+        getAppointmentsForPatient() {
+            return AppointmentsService.getAppointmentsByPatientId(this.currentPatientId).then((results)=>{
+            // return AppointmentsService.getAllAppointments().then((results) => {
+                // let patientAppointments = [];
+                // for(let appt of results){
+                //     if (appt.patientId == this.currentPatientId){
+                //         patientAppointments.push(appt);
+                //     } 
+                // }
+                // this.appointments = patientAppointments;
+                this.appointments = results;
+                this.buildNotificationsList(this.appointments);
+            });
+        },
 
         buildNotificationsList(appointmentsToDisplay) {
             this.notifications = [];

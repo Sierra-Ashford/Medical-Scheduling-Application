@@ -1,6 +1,6 @@
 <template>
     <div class="appointment-container">
-       
+
         <Appointment v-for="appointment of appointments" :key="appointment" :appointment="appointment" />
         <div v-if="appointments != null && appointments.length == 0">
             <h4>No appointments to display</h4>
@@ -22,9 +22,9 @@ export default {
             type: Number,
             default: 2
         },
-        selectedDate:{
-            type:Date,
-            default:null
+        selectedDate: {
+            type: Date,
+            default: null
         }
     },
     data() {
@@ -35,15 +35,16 @@ export default {
     methods: {
         getAppointmentsForDoctor() {
             return AppointmentsService.getAppointmentsByDoctorId(this.currentDoctorId).then((results) => {
-                // return AppointmentsService.getAllAppointments().then((results) => {
-                // let doctorAppointments = [];
-                // for(let appt of results){
-                //     if (appt.doctorId == this.currentDoctorId){
-                //         doctorAppointments.push(appt);
-                //     } 
-                // }
-                // this.appointments = doctorAppointments;
-                this.appointments = results;
+                return AppointmentsService.getAllAppointments().then((results) => {
+                    let doctorAppointments = [];
+                    for (let appt of results) {
+                        if (appt.doctorId == this.currentDoctorId) {
+                            doctorAppointments.push(appt);
+                        }
+                    }
+                    this.appointments = doctorAppointments;
+                    this.appointments = results;
+                });
             });
         },
 

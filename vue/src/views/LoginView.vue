@@ -29,7 +29,7 @@
           <h2>Medicine with a different approach</h2>
           <img src="src\Images\image.png" alt="Logo" class="blurb-logo" />
         </div>
-        <p>TimeRx is a comprehensive medical scheduling app designed to streamline and optimize the appointment
+        <p>MedConnect is a comprehensive medical scheduling app designed to streamline and optimize the appointment
           management process for healthcare providers and their patients.</p>
       </div>
     </div>
