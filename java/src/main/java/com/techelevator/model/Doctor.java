@@ -3,6 +3,7 @@ package com.techelevator.model;
 public class Doctor {
     private int doctorId;
     private int userId;
+    private int officeID;
     private String firstName;
     private String lastName;
     private String specialty;
@@ -14,6 +15,14 @@ public class Doctor {
 
     public void setHeadshot(String headshot) {
         this.headshot = headshot;
+    }
+
+    public int getOfficeID() {
+        return officeID;
+    }
+
+    public void setOfficeID(int officeID) {
+        this.officeID = officeID;
     }
 
     public Doctor() {};

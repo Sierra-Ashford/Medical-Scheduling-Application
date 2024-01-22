@@ -1,63 +1,66 @@
-
-
 <template>
-    <div class="find-doctor-container">
-      <div class="search-bar">
-        <input type="text" v-model="searchQuery" placeholder="Search by: Physician Name, Specialty, Office Hours" />
-        <button @click="searchDoctors">🔍</button>
-      </div>
-      
-      <div class="doctors-list">
-        <div v-for="doctor in doctors" :key="doctor.doctor_id" class="doctor-card">
+  <div class="find-doctor-container">
+    <div class="search-bar">
+      <input type="text" v-model="searchQuery" placeholder="Search by: Physician Name, Specialty, Office Hours" />
+      <button @click="searchDoctors">🔍</button>
+    </div>
+
+    <div class="doctors-list">
+      <div v-for="doctor in doctors" :key="doctor.doctorId" class="doctor-card">
+        <div class="doctor-profile">
           <img :src="doctor.headshot" alt="Doctor's headshot" class="doctor-headshot" />
-          <h2>{{ doctor.first_name }} {{ doctor.last_name }}</h2>
-          <p>{{ doctor.specialty }}</p>
-          <button @click="createAppointment(doctor.doctor_id)">Create Appointment</button>
-          <button @click="viewReviews(doctor.doctor_id)">Reviews</button>
+        
+          <div class="doctor-info">
+            <h2>{{ doctor.firstName }} {{ doctor.lastName }}</h2>
+            <p>{{ doctor.specialty }}</p>
+          </div>
+        </div>
+
+        <div class="doctor-actions">
+          <button @click="createAppointment(doctor.doctorId)">Create Appointment</button>
+          <button v-on:click="$router.push({ name: 'leave-review', params: {doctorId: doctor.doctorId} })">Reviews</button>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
-  <script>
-  import axios from 'axios';
-  import DoctorService from '../services/DoctorService';
-  
-  export default {
-    data() {
-      return {
-        searchQuery: '',
-        doctors: [],
-        loading: false
-      };
-      
-    },
-    methods: {
-      async searchDoctors() {
-        this.loading = true;
-        try {
-          const response = await axios.get(`http://localhost:9000/api/doctors?search=${this.searchQuery}`);
-          this.doctors = response.data;
-        } catch (error) {
-          console.error('Error fetching doctors:', error);
-        } finally {
-          this.loading = false;
-        }
-      },
-      createAppointment(doctorId) {
-        // Logic to create an appointment
-        console.log('Creating appointment for doctor ID:', doctorId);
-        
+<script>
+import DoctorService from '../services/DoctorService';
+
+export default {
+  data() {
+    return {
+      searchQuery: '',
+      doctors: [],
+      loading: false
+    };
+  },
+  methods: {
+    async searchDoctors() {
+      this.loading = true;
+      try {
+        const response = await DoctorService.getAllDoctors(this.searchQuery);
+        this.doctors = response.data;
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      } finally {
+        this.loading = false;
       }
     },
-    created() {
-        DoctorService.getAllDoctors().then(response =>{
-            this.doctors = response.data
-        } )
+    createAppointment(doctorId) {
+      console.log('Creating appointment for doctor ID:', doctorId);
+    },
+    viewReviews(doctorId) {
+      this.$router.push({ name: 'leave-review', params: { doctorId } });
+    },
+  },
+  created() {
+    this.searchDoctors();
+  }
+};
+</script>
 
-    }
-  };
-  </script>
   
   <style scoped>
   .find-doctor-container {
@@ -81,24 +84,43 @@
   
   .doctors-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
   }
   
   .doctor-card {
-    flex-basis: calc(33.333% - 1rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: left;
     padding: 1rem;
     border-radius: 8px;
+    width: 100%;
   }
-  
-  .doctor-headshot {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1rem;
+  .doctor-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.doctor-headshot {
+  width: 100px;
+  height: 80px;
+  border-radius: 30%;
+  object-fit: cover;
+}
+
+  .doctor-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .doctor-actions {
+    display: flex;
+    margin-left: auto;
+    gap: 10px;
   }
   
   .doctor-card button {
@@ -114,8 +136,3 @@
     background-color: #B6E2EF;
   }
   </style>
-  
-   
-
-  
-  

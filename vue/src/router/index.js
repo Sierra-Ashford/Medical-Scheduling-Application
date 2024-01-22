@@ -12,7 +12,7 @@ import SetMyHours from '../views/SetMyHoursView.vue';
 import PatientHomeView from '../views/PatientHomeView.vue';
 import DoctorHomeView from '../views/DoctorHomeView.vue';
 import DoctorReviews from '../views/DoctorReviewsView.vue';
-
+import LeaveReview from '../views/LeaveReviewView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -106,6 +106,14 @@ const routes = [
     component: FindDoctorView,
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: "/reviews/:doctorId",
+    name: "leave-review",
+    component: LeaveReview,
+    meta: {
+      requiresAuth: true
     }
   }
 

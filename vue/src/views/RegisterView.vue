@@ -23,9 +23,9 @@
           <div class="form-input-group">
             <label for="role" class="label">Select Role:</label>
             <select id="role" v-model="user.role" required class="blue-border">
-          <option value="ROLE_PATIENT">Patient</option>
-          <option value="ROLE_DOCTOR">Doctor</option>
-        </select>
+              <option value="ROLE_PATIENT">Patient</option>
+              <option value="ROLE_DOCTOR">Doctor</option>
+            </select>
           </div>
           <!-- Additional fields for doctors -->
           <div v-if="user.role === 'ROLE_DOCTOR'" class="doctor-form-input-group">
@@ -73,18 +73,19 @@
         </form>
       </div>
 
-       <!-- Blurb section -->
-       <div class="blurb-container">
+      <!-- Blurb section -->
+      <div class="blurb-container">
         <div class="blurb-section">
           <div class="blurb-header">
             <h2>Medicine with a different approach</h2>
             <img src="src\Images\image.png" alt="Logo" class="blurb-logo" />
           </div>
-          <p>TimeRx is a comprehensive medical scheduling app designed to streamline and optimize the appointment management process for healthcare providers and their patients.</p>
+          <p>TimeRx is a comprehensive medical scheduling app designed to streamline and optimize the appointment
+            management process for healthcare providers and their patients.</p>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -92,6 +93,7 @@ import authService from '../services/AuthService';
 import PatientService from '../services/PatientService';
 import DoctorService from '../services/DoctorService';
 import Navbar from '../components/NavBar.vue'
+import OfficeService from '../services/OfficeService';
 
 export default {
   components: {
@@ -116,6 +118,9 @@ export default {
         birthDate: '',
         phoneNumber: '',
         email: '',
+      },
+      office: {
+        name: 'MedConect',
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
@@ -145,8 +150,12 @@ export default {
             const patient = await PatientService.create({ ...this.patient, userId: response.data.id });
             //console.log(patient);
           } else {
-            const doctor = await DoctorService.create({ ...this.doctor, userId: response.data.id });
-            //console.log(doctor);
+            const office = await OfficeService.create({ ...this.office });
+            const officeID = office.data.office_id;
+
+            console.log('officeID:', officeID);
+
+            await DoctorService.create({ ...this.doctor, userId: response.data.id, officeID });
           }
 
           this.$router.push({
@@ -154,13 +163,13 @@ export default {
             query: { registration: 'success' },
           });
         }
-      }
-      catch (error) {
-        //console.log(`Error during registration.`);
-        //console.log(error);
+
+      } catch (error) {
+        // Handle errors
+        console.error('Error during registration:', error);
         const response = error.response;
         this.registrationErrors = true;
-        if (response.status === 400) {
+        if (response && response.status === 400) {
           this.registrationErrorMsg = 'Bad Request: Validation Errors';
         }
       }
@@ -267,31 +276,33 @@ export default {
 }
 
 .create-account-btn {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 20px;
-    background-color: #587DFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
-  
-  .create-account-btn:hover {
-    background-color: #B6E2EF;
-  }
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #587DFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.create-account-btn:hover {
+  background-color: #B6E2EF;
+}
 
 
 
 .flex-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start;
+  /* Align items to the top */
   height: 100vh;
-  padding: 20px; /* Add padding to create space around the form */
+  padding: 20px;
+  /* Add padding to create space around the form */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -308,23 +319,29 @@ export default {
 .blurb-section {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally within blurb-section */
-  text-align: center; /* Center text within blurb-section */
+  align-items: center;
+  /* Center horizontally within blurb-section */
+  text-align: center;
+  /* Center text within blurb-section */
 }
+
 .blurb-header {
   display: flex;
   align-items: center;
   /* margin-bottom: 5px; */
-  font-size: 30px; /* Adjust as needed */
+  font-size: 30px;
+  /* Adjust as needed */
 }
 
 .blurb-logo {
-  width: 200px; /* Adjust the size of the logo */
+  width: 200px;
+  /* Adjust the size of the logo */
   height: auto;
-   /* Adjust as needed */
+  /* Adjust as needed */
 }
+
 .blurb-section p {
-  font-size: 20px; /* Adjust the font size as needed */
+  font-size: 20px;
+  /* Adjust the font size as needed */
 }
 </style>
-
