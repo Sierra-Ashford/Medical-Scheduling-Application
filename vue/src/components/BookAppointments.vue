@@ -1,5 +1,5 @@
 <template>
-        <h1 class="font-style-center">How can we help!</h1>
+        <h1 class="font-style-center">How can we help?</h1>
         <h2 class="font-style">Book an Appointment</h2>
         <div>
              <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
