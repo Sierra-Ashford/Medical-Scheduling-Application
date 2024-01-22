@@ -20,9 +20,18 @@ public class DoctorController {
     private DoctorDao doctorDao;
 
     //tested in postman
-    @RequestMapping( method= RequestMethod.POST)
-    public Doctor addDoctorToDB(@RequestBody Doctor doctor) {
-        return doctorDao.createDoctor(doctor);
+    @RequestMapping(method = RequestMethod.POST)
+    public Doctor addDoctorToDB(@RequestBody Doctor doctor, @RequestParam(name = "officeID") Integer officeID) {
+        // Associate the doctor with the specified officeID
+        doctor.setOfficeID(officeID);
+
+        try {
+            return doctorDao.createDoctor(doctor);
+        } catch (Exception e) {
+            // Log the exception for debugging
+            e.printStackTrace();
+            throw e; // Rethrow the exception to return a 500 status
+        }
     }
     //tested in postman
     @RequestMapping(method = RequestMethod.GET)

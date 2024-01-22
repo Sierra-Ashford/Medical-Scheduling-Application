@@ -16,6 +16,17 @@ public class JdbcOfficeDao implements OfficeDao {
     }
 
     @Override
+    public Office createOffice(Office newOffice) {
+        String sql = "INSERT INTO office ( name, address, phone_number, cost_per_hr,office_hr) VALUES ( ?, ?, ?, ?,?) RETURNING office_id;";
+        int createdOfficeId = jdbcTemplate.queryForObject(sql, Integer.class,  "MedConnect", "123 Main St. Cityville, GA",
+                "777-123-8888", 100, 8);
+
+        newOffice.setOffice_id(createdOfficeId);
+
+        return newOffice;
+    }
+
+    @Override
     public List<Office> getAllOffices() {
         List<Office> offices = new ArrayList<>();
         String sql = "SELECT * FROM office";
@@ -29,7 +40,7 @@ public class JdbcOfficeDao implements OfficeDao {
     @Override
     public Office getOfficeById(int officeId) {
         Office office = null;
-        String sql = "SELECT * FROM office WHERE office_id = ?";
+        String sql = "SELECT office_id, name, address, phone_number, cost_per_hr, office_hr FROM office WHERE office_id = ?";
         SqlRowSet row = jdbcTemplate.queryForRowSet(sql, officeId);
         if (row.next()) {
             office = mapRowToOffice(row);
@@ -40,17 +51,17 @@ public class JdbcOfficeDao implements OfficeDao {
         Office office = new Office();
 
         office.setOffice_id(row.getInt("office_id"));
-        office.setDoctor_id(row.getInt("doctor_id"));
+        //office.setDoctor_id(row.getInt("doctor_id"));
         office.setName(row.getString("name"));
         office.setAddress(row.getString("address"));
         office.setPhoneNumber(row.getString("phone_number"));
         office.setCostPerHr(row.getInt("cost_per_hr"));
-        office.setSpecialty(row.getString("specialty"));
+        //office.setSpecialty(row.getString("specialty"));
         office.setOfficeHr(row.getInt("office_hr"));
         return office;
     }
 
-    // Created getOfficeByDoctorId
+//     Created getOfficeByDoctorId
     @Override
     public Office getOfficeByDoctorId(int doctorId) {
         Office office = null;
@@ -60,5 +71,49 @@ public class JdbcOfficeDao implements OfficeDao {
             office = mapRowToOffice(row);
         }
         return office;
+    }
+
+    @Override
+    public Office updateOfficeDetails(Office updatedOfficeData) {
+        try {
+            String sql = "UPDATE office SET address = ?, phone_number = ?, cost_per_hr = ?, " +
+                    "office_hr = ? WHERE office_id = ?";
+            int rowsUpdated = jdbcTemplate.update(
+                    sql,
+                    updatedOfficeData.getAddress(),
+                    updatedOfficeData.getPhoneNumber(),
+                    updatedOfficeData.getCostPerHr(),
+                    updatedOfficeData.getOfficeHr(),
+                    updatedOfficeData.getOffice_id()
+            );
+
+            if (rowsUpdated > 0) {
+                // Rows were updated, fetch the updated office details
+                return getOfficeById(updatedOfficeData.getOffice_id());
+            } else {
+                // No rows were updated, handle accordingly (return null or throw an exception)
+                return null;
+            }
+        } catch (Exception ex) {
+            // Log the exception
+            ex.printStackTrace(); // You can use a logging framework here
+
+            // Rethrow the exception or handle it as needed
+            throw new RuntimeException("Error updating office details", ex);
+        }
+    }
+
+    @Override
+    public Office getOfficeByUserId(int userId) {
+        String sql = "SELECT o.office_id, o.name, o.address, o.phone_number, o.cost_per_hr, o.office_hr\n" +
+                "FROM office o\n" +
+                "JOIN doctors d ON d.office_id = o.office_id\n" +
+                "WHERE user_id =?;";
+        SqlRowSet row = jdbcTemplate.queryForRowSet(sql, userId);
+        if (row.next()) {
+            return mapRowToOffice(row);
+        } else {
+            return null;
+        }
     }
 }

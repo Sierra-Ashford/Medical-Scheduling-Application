@@ -39,12 +39,12 @@
     showPatientLink() {
       // Check if the current route is PatientHomeView
       return this.$route.name === 'patientHome' || this.$route.name === 'find' || 
-        this.$route.name === 'bookAppointment' || this.$route.name === 'reviews';
+        this.$route.name === 'book-appointment' ;
 },
     showDoctorLink(){
       // Check if the current route is DoctorHomeView
       return this.$route.name === 'doctorHome' || this.$route.name === 'MyOffice' ||
-       this.$route.name === 'Agenda' || this.$route.name === 'MyReviews';
+       this.$route.name === 'SetMyHours' || this.$route.name === 'MyReviews';
     },
   },
   methods: {

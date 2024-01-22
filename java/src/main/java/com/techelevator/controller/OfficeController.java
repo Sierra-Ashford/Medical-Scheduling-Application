@@ -17,6 +17,11 @@ public class OfficeController {
     @Autowired
     private OfficeDao officeDao;
 
+    @RequestMapping( method= RequestMethod.POST)
+    public Office addOfficeToDB(@RequestBody Office office) {
+        return officeDao.createOffice(office);
+    }
+
     @RequestMapping(path = "/all", method= RequestMethod.GET)
     public List<Office> getAllOffices() {
         return officeDao.getAllOffices();
@@ -27,10 +32,27 @@ public class OfficeController {
         return officeDao.getOfficeById(officeId);
     }
 
-    @RequestMapping(path="/{doctorId}", method= RequestMethod.GET)
-    public Office getOfficeByDoctorId(@PathVariable int doctorId) {
-        return officeDao.getOfficeByDoctorId(doctorId);
+    //    @RequestMapping(path="/doctor/{doctorId}", method= RequestMethod.GET)
+//    public Office getOfficeByDoctorId(@PathVariable int doctorId) {
+//        return officeDao.getOfficeByDoctorId(doctorId);
+//    }
+    @RequestMapping(path="/user/{userId}", method= RequestMethod.GET)
+    public Office getOfficeByUserId(@PathVariable int userId) {
+        return officeDao.getOfficeByUserId(userId);
     }
 
+    @RequestMapping(path = "/update/{officeId}", method = RequestMethod.PUT)
+    public Office updateOfficeDetails(@PathVariable int officeId, @RequestBody Office updatedOfficeData) {
+        // Set the office ID in the updated data
+        updatedOfficeData.setOffice_id(officeId);
 
+        // Update the office details
+        return officeDao.updateOfficeDetails(updatedOfficeData);
+
+
+    }
 }
+
+
+
+
