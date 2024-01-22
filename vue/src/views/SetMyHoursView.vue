@@ -1,7 +1,7 @@
 <template>
   <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
   <div>
-      <SetMyHours></SetMyHours>>
+      <SetMyHours></SetMyHours>
   </div>
 </template>
 

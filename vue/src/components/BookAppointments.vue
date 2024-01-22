@@ -1,121 +1,171 @@
 <template>
-         <h1>Book an Appointment</h1>
-         <div>
-             <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
-             <select name="doctor" id="doctor" style="min-width:200px" v-model=selectedDoctor @change="onSelectedDoctorChanged">
-                 <option value="">Select a Doctor</option>
-                 <option v-for="doctor in this.doctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{ doctor.firstName }} {{ doctor.lastName }}</option>
- 
-             </select>
-         </div>
-         <div v-if="selectedDoctor != null && selectedDoctor != ''">
-             <label for="desiredDay" style="margin-right: 40px;">Select Date</label>
-             <input type="date" name="desiredDay" id="desiredDay" v-model="selectedDate" @change="onSelectedDateChanged">
-         </div>
-         <div v-if="selectedDate != null">
-             <label for="possibleOptions">Please select available time slot</label>
-             <div v-for="slot in availableAppointmentsForDay" :key="slot">
-                 <TimeSlot :appointment="slot" :doctorId="this.selectedDoctor" :patientId="patientId"
-                 @appt-booked="async() => await on"/>
- 
-                 <!-- on-click route to home--give patient success message or error code -->
- 
-             </div>
-         </div>
- </template>
+    <h1>Book an Appointment</h1>
+    <div>
+        <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
+        <select name="doctor" id="doctor" style="min-width:200px" v-model=selectedDoctorId
+            @change="onSelectedDoctorChanged">
+            <option value="">Select a Doctor</option>
+            <option v-for="doctor in this.availableDoctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{
+                doctor.firstName }} {{ doctor.lastName }}</option>
+
+        </select>
+    </div>
+    <div v-if="selectedDoctorId != null && selectedDoctorId != ''">
+        <label for="selectedDate" style="margin-right: 40px;">Select Date</label>
+        <input type="date" name="selectedDate" id="selectedDate" v-model="selectedDateString"
+            @change="onSelectedDateChanged">
+    </div>
+    <div v-if="selectedDoctorId && selectedDate">
+        <div>{{ availableTimeslotsForDay }}</div>
+        <div v-if="availableTimeslotsForDay.length > 0">
+            <label>Please select available time slot</label>
+            <div v-for="timeslot in availableTimeslotsForDay" :key="timeslot.startDateTime.toString()">
+                <TimeSlot :timeslot="timeslot" :doctorId="this.selectedDoctorId" :patientId="patientId"
+                    @appt-booked="onAppointmentBooked" />
+
+                <!-- on-click route to home--give patient success message or error code -->
+
+            </div>
+        </div>
+        <div v-else>
+            <label>No timeslots available on this day.</label>
+        </div>
+    </div>
+    <div>
+        <label>DEBUG</label>
+        <code><pre>{{ JSON.stringify({ selectedDateString, selectedDate, availabilityForSelectedDoctor, appointmentsForSelectedDoctor, possibleTimeslotsForDay, availableTimeslotsForDay }, null, 2) }}</pre></code>
+    </div>
+</template>
    
- <script>
- import TimeSlot from '../components/TimeSlot.vue';
- import DoctorService from '../services/DoctorService';
- import AppointmentService from '../services/AppointmentsService.js';
- import AvailabilityService from '../services/AvailabilityService.js';
- import TimeSlotsService from '../services/CreateTimeSlotsService.js';
- import {add, set, isWithinInterval, isEqual} from 'date-fns';
- 
- 
- export default {
-     components: {
-         TimeSlot,
-         
-     },
-     data() {
-         return {
-             patientId: parseInt(localStorage.getItem('patientId')),
-             selectedDate: null,
-             selectedDoctor: null,
-             showTimeslots: false,
-             doctors: [],
-             availabilityForSelectedDoctor: [],
-             appointmentsForSelectedDoctor: [],
-             availableAppointmentsForDay: []
-         }
-     },
-     computed: {
-       navbarButtonText() {
-         return "Log Out";
-       },
-       navbarButtonDestination() {
-         return "logout";
-       }
-     },
-     methods: {
-         async onSelectedDateChanged() {
-             //start with all available timeslots for this day
-             // use CreateTimeSlotsService for this
-             const intervalMinutes = 30;
-             const timeslots = TimeSlotsService.generateTimeslots(this.selectedDate, add(this.selectedDate, { days: 1 }), intervalMinutes);
- 
-             // filter away all timeslots that are not in the doctor's availability
-             const onlyAvailableTimeSlots = timeslots
-                 .filter(timeslot => this.availabilityForSelectedDoctor.some(availability => {
- 
-                 const matches = [...availability.startTime.matchAll(/(\d\d):(\d\d):\d\d/g)].at(0);
-                 const intervalStartHour = matches.at(1);
-                 const intervalStartMinute = matches.at(2);
-                 const intervalStart = set(this.selectedDate, { hours: intervalStartHour, minutes: intervalStartMinute });
-                 const intervalEnd = set(this.selectedDate, { hours: intervalStartHour, minutes: intervalStartMinute + intervalMinutes });
-                 const isWithinIntervalResult = isWithinInterval(timeslot, {
-                     start: intervalStart,
-                     end: intervalEnd
-                 });
-                 //console.log({intervalStartHour, intervalStartMinute, intervalStart, intervalEnd, isWithinIntervalResult});
-                 return isWithinIntervalResult;
-             }));
- 
-             // filter away all timeslots that are appointments for this doctor
-             const onlyAvailableTimeSlotsWithAppointmentsRemoved = onlyAvailableTimeSlots
-                 .filter(timeslot => !this.appointmentsForSelectedDoctor
-                     .some(appointment => isEqual(appointment.appointmentStartTime, timeslot)));
-             
-             // set resulting array to availableAppointmentsForDay
-             this.availableAppointmentsForDay = onlyAvailableTimeSlotsWithAppointmentsRemoved
-                 .map(timeslot => ({startTime: timeslot, endTime: set(timeslot, {minutes: intervalMinutes})}));
-             //console.log({availability: this.availabilityForSelectedDoctor, selectedDate: this.selectedDate, timeslots, onlyAvailableTimeSlots, onlyAvailableTimeSlotsWithAppointmentsRemoved});
-         },
-         async onSelectedDoctorChanged($event) {
-             await this.getDoctorsSchedule(parseInt($event.target.value))
-         },
-         async getDoctorsSchedule(doctorId) {
-             const availabilities = await AvailabilityService.getAllAvailability();
-             const availabilitiesForDoctor = availabilities.filter(availability => availability.doctorId === doctorId);
-             this.availabilityForSelectedDoctor = availabilitiesForDoctor;
- 
-             const appointments = await AppointmentService.getAllAppointments();
-             const appointmentsForDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
-             this.appointmentsForSelectedDoctor = appointmentsForDoctor;
- 
-             //console.log({availabilities, appointments,availabilitiesForDoctor, appointmentsForDoctor,availabilityByDoctor: this.availability, appointmentsByDoctor: this.appointments})
-         },
-         
-         getDoctors() {
-             DoctorService.getAllDoctors().then((response)=> {
-                 this.doctors = response.data;
-                 console.log("doctors", this.doctors);
-             })
-         }
-     },
-     beforeMount(){
-         this.getDoctors()
-     }
- };
- </script>
+<script>
+import TimeSlot from '../components/TimeSlot.vue';
+import doctorService from '../services/DoctorService';
+import appointmentService from '../services/AppointmentsService.js';
+import availabilityService from '../services/AvailabilityService.js';
+import timeslotService from '../services/CreateTimeSlotsService.js';
+import { add, set, isWithinInterval } from 'date-fns';
+
+
+export default {
+    components: {
+        TimeSlot,
+
+    },
+    data() {
+        return {
+            patientId: null,
+            selectedDateString: null,
+            selectedDoctorId: null,
+            availableDoctors: [],
+            availabilityForSelectedDoctor: [],
+            appointmentsForSelectedDoctor: []
+        }
+    },
+    computed: {
+        navbarButtonText() {
+            return "Log Out";
+        },
+        navbarButtonDestination() {
+            return "logout";
+        },
+        // selectedDate() {
+        //     return this.selectedDateString ? new Date(this.selectedDateString) : undefined;
+        // },
+        
+        selectedDate() {
+        if (this.selectedDateString) {
+        const [year, month, day] = this.selectedDateString.split('-').map(Number);
+        return new Date(year, month - 1, day); // Month is zero-indexed in JavaScript Dates
+        }
+        return undefined;
+        },
+
+        possibleTimeslotsForDay() {
+            if (!this.selectedDate) return [];
+
+            // should recalc when date changes
+            // run algorithm to generate timeslots based on date
+     
+
+            const timeslots = timeslotService.generateTimeslots(
+                this.selectedDate, // the date the user selected
+                add(this.selectedDate, { days: 1 }), // one day past that (to get the whole 24 hours)
+                30); // NOTE: timeslot intervals are hardcoded to 30 mins here
+            return timeslots;
+        },
+        availableTimeslotsForDay() {
+            if (!this.selectedDate) return [];
+
+            // should recalc when and of availability, appointments, or timeslots change
+            // start with available timeslots
+
+            // filter out availability of doctor
+            const filteredByAvailability = this.possibleTimeslotsForDay.filter(timeslot =>
+                this.availabilityForSelectedDoctor.some(availability => {
+
+                    // attach the hour and minute to the selected date
+                    // we do this because availabilities are set to a day of the week, not a date
+                    // they have already been filtered by day of week using the service so we know they are matching the day of the week already
+                    const availabilityStartDateTime = set(this.selectedDate, { hours: availability.startTimeHours, minutes: availability.startTimeMinutes });
+                    const availabilityEndDateTime = set(this.selectedDate, { hours: availability.endTimeHours, minutes: availability.endTimeMinutes });
+                    const availabilityInterval = { start: availabilityStartDateTime, end: availabilityEndDateTime };
+
+                    //console.log({ availabilityStartDateTime, availabilityEndDateTime, availabilityInterval, startHours: availability.startTimeHours, startMinutes: availability.startTimeMinutes});
+
+                    // both timeslot start and end must be within the availability interval
+                    return isWithinInterval(timeslot.startDateTime, availabilityInterval)
+                        && isWithinInterval(timeslot.endDateTime, availabilityInterval);
+                })
+            );
+
+            // filter out appointments of doctor
+            const filteredByAppointments = filteredByAvailability.filter(timeslot =>
+                // appointments are already filtered by doctor ID and date
+                this.appointmentsForSelectedDoctor.some(appointment => {
+                    //console.log(appointment);
+
+                    // create an interval for the appointment
+                    const appointmentInterval = { start: appointment.appointmentStartTime, end: appointment.appointmentEndTime };
+
+                    // both timeslot start and end must be within the availability interval
+                    return isWithinInterval(timeslot.startDateTime, appointmentInterval)
+                        && isWithinInterval(timeslot.endDateTime, appointmentInterval);
+                })
+            );
+
+            //console.log('Computing availableTimeslotsForDay');
+            //console.log({ filteredByAvailability, filteredByAppointments })
+            return filteredByAppointments;
+        }
+    },
+    methods: {
+        async onSelectedDateChanged() {
+            // selected date has changed, so availability and appointments need to be fetched
+            this.availabilityForSelectedDoctor = await availabilityService.getAvailabilityByDoctorIdAndDayOfWeek(this.selectedDoctorId, this.selectedDate);
+            this.appointmentsForSelectedDoctor = await appointmentService.getAppointmentsByDoctorIdAndDate(this.selectedDoctorId, this.selectedDate);
+
+            // also, we need to regenerate the timeslots -- this is done by a computed property
+        },
+        async onSelectedDoctorChanged() {
+            // we only want to call these after a date has been selected, but we want to call again if the date is changed
+            if (!this.selectedDate) return;
+
+            // selected doctor id has changed, so availability and appointments need to be fetched
+            this.availabilityForSelectedDoctor = await availabilityService.getAvailabilityByDoctorIdAndDayOfWeek(this.selectedDoctorId, this.selectedDate);
+            this.appointmentsForSelectedDoctor = await appointmentService.getAppointmentsByDoctorIdAndDate(this.selectedDoctorId, this.selectedDate);
+
+            // date didn't change, so timeslots computer property should not recalc
+        },
+        async onAppointmentBooked() {
+            // an appointment has been booked, so appointments need to be fetched
+            this.appointmentsForSelectedDoctor = await appointmentService.getAppointmentsByDoctorIdAndDate(this.selectedDoctorId, this.selectedDate);
+        }
+    },
+    async beforeMount() {
+        this.patientId = parseInt(localStorage.getItem('patientId'));
+
+        const response = await doctorService.getAllDoctors();
+        this.availableDoctors = response.data;
+    }
+};
+</script>

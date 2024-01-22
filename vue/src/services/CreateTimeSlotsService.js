@@ -1,3 +1,5 @@
+import {add, set} from 'date-fns';
+
 function getDaysInRange(startDate, endDate) {
     var date = new Date(startDate);
     var days = [];
@@ -14,18 +16,16 @@ export default {
     generateTimeslots(startDate, endDate, increment) {
         const incrementsPerHour = 60 / increment;
         const timeslotIntervalIndicies = [...Array(incrementsPerHour).keys()];
-        const hours = [...Array(24).keys()];
+        const hoursOfDay = [...Array(24).keys()];
     
-        const timeslots = hours
-            .flatMap(hour => timeslotIntervalIndicies
-                .map(intervalIndex => ({hour, minute: Math.floor(intervalIndex * increment)})));
+        const timeslots = hoursOfDay
+            .flatMap(hours => timeslotIntervalIndicies
+                .map(intervalIndex => ({hours, minutes: Math.floor(intervalIndex * increment)})));
     
         const timeslotsPerDayOfMonth = getDaysInRange(startDate, endDate)
-            .flatMap(date => timeslots.map(({hour, minute}) => { 
-                const newDate = new Date(date);
-                newDate.setHours(hour);
-                newDate.setMinutes(minute);
-                return newDate;
+            .flatMap(date => timeslots.map(({hours, minutes}) => { 
+                const startDateTime = set(date, {hours, minutes});
+                return { startDateTime, endDateTime: add(startDateTime, {minutes: increment})};
             }));
     
         return timeslotsPerDayOfMonth;
