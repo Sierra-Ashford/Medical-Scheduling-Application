@@ -53,16 +53,16 @@ public class JdbcDoctorDao implements DoctorDao{
     }
 
     //tested in postman
-    @Override
-    public Doctor createDoctor(Doctor newDoctor) {
-        String sql = "INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES (?, ?, ?, ?, ?) RETURNING doctor_id;";
-        int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(),
-                newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty(), newDoctor.getSpecialty());
+        @Override
+        public Doctor createDoctor(Doctor newDoctor) {
+            String sql = "INSERT INTO doctors (user_id, office_id, first_name, last_name, specialty, headshot) VALUES (?, ?, ?, ?, ?, ?) RETURNING doctor_id;";
+            int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(), newDoctor.getOfficeID(),
+                    newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty(), newDoctor.getSpecialty());
 
-        newDoctor.setDoctorId(createdDoctorId);
+            newDoctor.setDoctorId(createdDoctorId);
 
-        return newDoctor;
-    }
+            return newDoctor;
+        }
 
     @Override
     public Doctor updateDoctor(Doctor doctor) {
