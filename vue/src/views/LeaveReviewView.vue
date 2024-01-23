@@ -17,7 +17,7 @@
     },
     computed: {
       doctorId() {
-        return this.$route.params.doctorId;
+        return parseInt(this.$route.params.doctorId);
       },
       navbarButtonText() {
         return "Log Out";

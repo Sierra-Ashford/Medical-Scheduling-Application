@@ -31,6 +31,12 @@
 
 <script>
 export default {
+  props: {
+    doctorId: {
+      type: Number,
+      default: null
+    }
+  },
   data() {
     return {
       reviews: [
