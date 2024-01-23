@@ -25,13 +25,13 @@
     
 <script>
 import Navbar from '../components/NavBar.vue'
-import NotificationsList from '../components/NotificationsList.vue';
+// import NotificationsList from '../components/NotificationsList.vue';
 import AppointmentCalendar from '../components/AppointmentCalendar.vue';
 
 export default {
   components: {
     Navbar,
-    NotificationsList,
+    // NotificationsList,
     AppointmentCalendar,
   },
   computed: {
