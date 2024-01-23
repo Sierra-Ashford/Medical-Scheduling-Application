@@ -9,6 +9,7 @@ export function createStore(currentToken, currentUser) {
       doctorId: undefined,
       patientId: undefined,
       currentLoggedInPatient: "",
+      selectedPatientId: null,
     },
     getters: {
       getRole: state => {

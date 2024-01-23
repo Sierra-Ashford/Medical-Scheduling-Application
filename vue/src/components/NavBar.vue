@@ -1,25 +1,27 @@
 <template>
-    <div class="navbar">
-      <div class="brand-container">
-      <img src="src\Images\image.png" alt="Logo" class="logo" />
-      <h1 class="brand">MedConnect</h1>
-      </div>
-      <router-link v-if="showPatientLink" to="/patient"  class="nav-link">Home</router-link>
-      <router-link v-if="showPatientLink" to="/find"  class="nav-link">Find a Doctor</router-link>
-      <router-link v-if="showPatientLink" to="/book-appointment"  class="nav-link">Schedule An Appointment</router-link>
-     <!-- <router-link v-if="showPatientLink" to="/bookAppointment"  class="nav-link">Book Appointment</router-link> -->
-      <!-- <router-link v-if="showPatientLink" to="/reviews"  class="nav-link">Settings</router-link> -->
-
-      <router-link v-if="showDoctorLink" to="/doctor"  class="nav-link">Home</router-link>
-      <router-link v-if="showDoctorLink" to="/MyOffice"  class="nav-link">My Office</router-link>
-      <router-link v-if="showDoctorLink" to="/set-my-hours"  class="nav-link">Set My Hours</router-link>
-      <router-link v-if="showDoctorLink" to="/MyReviews"  class="nav-link">Reviews</router-link>
-      <!-- <router-link v-if="showDoctorLink" to="/Notifications"  class="nav-link">Notifications</router-link> -->
-      <router-link :to="{ name: buttonDestination }" class="login-link">
-        {{ buttonText }}
-      </router-link>
+  <div class="navbar">
+    <div class="brand-container">
+    <img src="src\Images\image.png" alt="Logo" class="logo" />
+    <h1 class="brand">MedConnect</h1>
     </div>
-  </template>
+    <router-link v-if="isPatient" to="/patient"  class="nav-link">Home</router-link>
+    <router-link v-if="isPatient" to="/find"  class="nav-link">Find a Doctor</router-link>
+    <router-link v-if="isPatient" to="/book-appointment"  class="nav-link">Schedule An Appointment</router-link>
+    <router-link v-if="isPatient" to="/prescriptions"  class="nav-link">My Prescriptions</router-link>
+   <!-- <router-link v-if="showPatientLink" to="/bookAppointment"  class="nav-link">Book Appointment</router-link> -->
+    <!-- <router-link v-if="showPatientLink" to="/reviews"  class="nav-link">Settings</router-link> -->
+
+    <router-link v-if="isDoctor" to="/doctor"  class="nav-link">Home</router-link>
+    <router-link v-if="isDoctor" to="/MyPatients"  class="nav-link">My Patients</router-link>
+    <router-link v-if="isDoctor" to="/MyOffice"  class="nav-link">My Office</router-link>
+    <router-link v-if="isDoctor" to="/set-my-hours"  class="nav-link">Set My Hours</router-link>
+    <router-link v-if="isDoctor" to="/MyReviews"  class="nav-link">Reviews</router-link>
+    <!-- <router-link v-if="showDoctorLink" to="/Notifications"  class="nav-link">Notifications</router-link> -->
+    <router-link :to="{ name: buttonDestination }" class="login-link">
+      {{ buttonText }}
+    </router-link>
+  </div>
+</template>
 
 
   
@@ -36,15 +38,11 @@
       },
     },
     computed: {
-    showPatientLink() {
-      // Check if the current route is PatientHomeView
-      return this.$route.name === 'patientHome' || this.$route.name === 'find' || 
-        this.$route.name === 'book-appointment' ;
-},
-    showDoctorLink(){
-      // Check if the current route is DoctorHomeView
-      return this.$route.name === 'doctorHome' || this.$route.name === 'MyOffice' ||
-       this.$route.name === 'SetMyHours' || this.$route.name === 'MyReviews';
+      isPatient() {
+      return this.$store.getters.getRole === 'ROLE_PATIENT';
+    },
+    isDoctor() {
+      return this.$store.getters.getRole === 'ROLE_DOCTOR';
     },
   },
   methods: {
