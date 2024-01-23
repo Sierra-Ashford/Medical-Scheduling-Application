@@ -2,13 +2,17 @@
     <h1>Book an Appointment</h1>
     <div>
         <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
-        <select name="doctor" id="doctor" style="min-width:200px" v-model=selectedDoctorId
+        <select name="doctor" id="doctor" style="min-width:200px" v-model="selectedDoctorId"
             @change="onSelectedDoctorChanged">
             <option value="">Select a Doctor</option>
-            <option v-for="doctor in this.availableDoctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{
+            <option v-for="doctor in availableDoctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{
                 doctor.firstName }} {{ doctor.lastName }}</option>
 
         </select>
+    </div>
+    <div>
+        <label for="description">Reason for visit:</label>
+        <input type="text" v-model="notesForVisit" placeholder="Briefly describe your reason">
     </div>
     <div v-if="selectedDoctorId != null && selectedDoctorId != ''">
         <label for="selectedDate" style="margin-right: 40px;">Select Date</label>
@@ -16,12 +20,13 @@
             @change="onSelectedDateChanged">
     </div>
     <div v-if="selectedDoctorId && selectedDate">
-        <div>{{ availableTimeslotsForDay }}</div>
+        <!-- <div>{{ availableTimeslotsForDay }}</div> -->
         <div v-if="availableTimeslotsForDay.length > 0">
             <label>Please select available time slot</label>
             <div v-for="timeslot in availableTimeslotsForDay" :key="timeslot.startDateTime.toString()">
-                <TimeSlot :timeslot="timeslot" :doctorId="this.selectedDoctorId" :patientId="patientId"
+                <TimeSlot :timeslot="timeslot" :doctorId="selectedDoctorId" :patientId="patientId" :notes="notesForVisit"
                     @appt-booked="onAppointmentBooked" />
+
 
                 <!-- on-click route to home--give patient success message or error code -->
 
@@ -31,10 +36,10 @@
             <label>No timeslots available on this day.</label>
         </div>
     </div>
-    <div>
+    <!-- <div>
         <label>DEBUG</label>
         <code><pre>{{ JSON.stringify({ selectedDateString, selectedDate, availabilityForSelectedDoctor, appointmentsForSelectedDoctor, possibleTimeslotsForDay, availableTimeslotsForDay }, null, 2) }}</pre></code>
-    </div>
+    </div> -->
 </template>
    
 <script>
@@ -56,9 +61,10 @@ export default {
             patientId: null,
             selectedDateString: null,
             selectedDoctorId: null,
+            notesForVisit: '',
             availableDoctors: [],
             availabilityForSelectedDoctor: [],
-            appointmentsForSelectedDoctor: []
+            appointmentsForSelectedDoctor: [],
         }
     },
     computed: {
@@ -71,13 +77,13 @@ export default {
         // selectedDate() {
         //     return this.selectedDateString ? new Date(this.selectedDateString) : undefined;
         // },
-        
+
         selectedDate() {
-        if (this.selectedDateString) {
-        const [year, month, day] = this.selectedDateString.split('-').map(Number);
-        return new Date(year, month - 1, day); // Month is zero-indexed in JavaScript Dates
-        }
-        return undefined;
+            if (this.selectedDateString) {
+                const [year, month, day] = this.selectedDateString.split('-').map(Number);
+                return new Date(year, month - 1, day); // Month is zero-indexed in JavaScript Dates
+            }
+            return undefined;
         },
 
         possibleTimeslotsForDay() {
@@ -85,7 +91,7 @@ export default {
 
             // should recalc when date changes
             // run algorithm to generate timeslots based on date
-     
+
 
             const timeslots = timeslotService.generateTimeslots(
                 this.selectedDate, // the date the user selected
@@ -94,8 +100,9 @@ export default {
             return timeslots;
         },
         availableTimeslotsForDay() {
-            if (!this.selectedDate) return [];
-
+            if (!this.selectedDate) {
+                return [];
+            }
             // should recalc when and of availability, appointments, or timeslots change
             // start with available timeslots
 
@@ -115,17 +122,22 @@ export default {
                     // both timeslot start and end must be within the availability interval
                     return isWithinInterval(timeslot.startDateTime, availabilityInterval)
                         && isWithinInterval(timeslot.endDateTime, availabilityInterval);
+
                 })
+
             );
+            //return filteredByAvailability;
+
+            //check if its necessary to filter this then run it?
 
             // filter out appointments of doctor
             const filteredByAppointments = filteredByAvailability.filter(timeslot =>
                 // appointments are already filtered by doctor ID and date
-                this.appointmentsForSelectedDoctor.some(appointment => {
-                    //console.log(appointment);
+                !this.appointmentsForSelectedDoctor.some(appointment => {
+                    //console.log({appointment, timeslot});
 
                     // create an interval for the appointment
-                    const appointmentInterval = { start: appointment.appointmentStartTime, end: appointment.appointmentEndTime };
+                    const appointmentInterval = { start: appointment.startDateTime, end: appointment.endDateTime };
 
                     // both timeslot start and end must be within the availability interval
                     return isWithinInterval(timeslot.startDateTime, appointmentInterval)
@@ -157,9 +169,10 @@ export default {
             // date didn't change, so timeslots computer property should not recalc
         },
         async onAppointmentBooked() {
+            //console.log('event caught');
             // an appointment has been booked, so appointments need to be fetched
             this.appointmentsForSelectedDoctor = await appointmentService.getAppointmentsByDoctorIdAndDate(this.selectedDoctorId, this.selectedDate);
-        }
+        },
     },
     async beforeMount() {
         this.patientId = parseInt(localStorage.getItem('patientId'));

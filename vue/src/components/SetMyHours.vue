@@ -25,7 +25,7 @@
                         <label :for="`start-time-${availability.availabilityId}`">Start Time</label>
                         <input :id="`start-time-${availability.availabilityId}`" v-model="availability.startTime"
                             type="text" name="start-time" placeholder="00:00:00" required
-                            @change="() => updateAvailability(availability)" />
+                            @change.prevent="() => updateAvailability(availability)" />
                     </div>
 
                     <div class="form-input-group">
@@ -36,11 +36,9 @@
                     <button @click.prevent="() => deleteAvailability(availability)">Delete</button>
                 </div>
 
-
                 <button @click.prevent="createAvailability">Add New Availability</button>
-
+                <div></div>
                 <button type="submit" class="create-account-btn">Confirm All Changes</button>
-
 
             </form>
 
@@ -87,7 +85,8 @@ export default {
         },
         navbarButtonDestination() {
             return "logout";
-        }
+        },
+        
     },
     methods: {
         createAvailability() {
@@ -118,7 +117,7 @@ export default {
             const availabilities = Object.values(this.availabilities).flat();
 
             // forEach on the array
-            for(const availability of availabilities) {
+            for (const availability of availabilities) {
                 switch (availability.state) {
                     case "new":
                         await availabilityService.create(availability);
@@ -133,7 +132,7 @@ export default {
             }
 
             const availabilitySet = await availabilityService.getAllAvailabilityByDoctorId(this.doctorId);
-            console.log({availabilitySet});
+            console.log({ availabilitySet });
 
             this.availabilities = getDayNames()
                 .reduce((result, day) => {
