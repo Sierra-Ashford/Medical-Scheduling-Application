@@ -3,8 +3,8 @@
   </div>
   <div class="reviews-page-container">
     <div class="reviews-list">
-      <div class="review-entry" v-for="review in reviews.slice().reverse()" :key="review.id">
-        <h3>{{ review.author }}</h3>
+      <div class="review-entry" v-for="review in reviews" :key="review.reviewId">
+        <h3>{{ review.response }}</h3>
 
         <!-- Star display for each review entry -->
         <div class="star-display">
@@ -12,72 +12,85 @@
           :class="{ 'filled': star <= review.rating }">&#9733;</span>
         </div>
 
-        <p class="review-excerpt">{{ review.excerpt }}</p>
+        <p class="review-excerpt">{{ review.reviewNote }}</p>
+        <button @click="deleteReview(review.reviewId)" class="delete-review-button">Delete</button>
       </div>
     </div>
 
     <div class="review-form-container">
       <h2>Write a Review</h2>
-      <input type="text" v-model="review.author" placeholder="Your Name" class="review-author-input" />
+      <input type="text" v-model="review.response" placeholder="Review Title" class="review-title-input" />
       <div class="star-rating">
         <span v-for="star in 5" :key="star" class="star" @click="setRating(star)"
           :class="{ 'filled': rating >= star }">&#9733;</span>
       </div>
-      <textarea v-model="review.comment" placeholder="Share about your experience"></textarea>
-      <button @click="submitReview" class="submit-review">submit</button>
+      <textarea v-model="review.reviewNote" placeholder="Share about your experience"></textarea>
+      <button @click="submitReview" class="submit-review">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
+import ReviewService from '../services/ReviewService';
+
 export default {
-  props: {
-    doctorId: {
-      type: Number,
-      default: null
-    }
-  },
   data() {
     return {
-      reviews: [
-        // Example reviews
-        {
-          id: 1,
-          author: 'Nick Perry',
-          excerpt: 'First time seeing Dr. Garcia, but already a fan! Super thorough and answered all my questions.'
-        },
-        {
-          id: 2,
-          author: 'Linda Hudson',
-          excerpt: 'Could not ask for a better dermatologist. Dr. Garcia is meticulous, explains everything clearly, and my skin has never looked better.'
-        }
-  
-      ],
-      nextReviewId: 3,
+      reviews: [],
       rating: 0,
       review: {
-        author: '',
-        comment: ''
+        response: '', // Review Title
+        reviewNote: '' // Review comment
       },
+      doctorId: this.$route.params.doctorId,
     };
   },
+  created() {
+    this.fetchReviews();
+  },
   methods: {
+    fetchReviews() {
+      ReviewService.getReviewsByDoctorId(this.doctorId)
+      .then (response => {
+        this.reviews = response.data
+      })
+      .catch(error => {
+        console.error('Error fetching reviews:', error);
+      });
+
+    },
+    deleteReview(reviewId) {
+      ReviewService.deleteReview(reviewId)
+        .then(() => {
+          this.fetchReviews(); // Refresh the list of reviews
+        })
+        .catch(error => {
+          console.error('Error deleting review:', error);
+        });
+    },
+
     setRating(selectedRating) {
       this.rating = selectedRating;
     },
     submitReview() {
-      if (this.review.author.trim() && this.review.comment.trim() && this.rating !== 0) {
-        this.reviews.push({
-          id: this.nextReviewId++,
-          author: this.review.author,
+      if (this.review.response && this.review.reviewNote && this.rating != 0) {
+        ReviewService.createReview({
+          doctorId: this.doctorId,
+          response: this.review.response, // Review Title       
           rating: this.rating,
-          excerpt: this.review.comment
+          reviewNote: this.review.reviewNote // Review comment
+        })
+        .then(() => {
+          this.fetchReviews();
+          this.review.response = '';
+          this.review.reviewNote = '';
+          this.rating = 0;
+        })
+        .catch(error => {
+          console.error('Error submitting review:', error);
         });
-        this.review.author = '';
-        this.review.comment = '';
-        this.rating = 0;
       } else {
-        alert('Please fill in your name, review, and select a rating.');
+        alert('Please fill in your Review Title, Review, and Select a Rating.');
       }
     }
   }
