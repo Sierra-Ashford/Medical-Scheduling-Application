@@ -10,9 +10,9 @@ public interface OfficeDao {
     List<Office> getAllOffices();
     Office getOfficeById(int officeId);
 
-    Office getOfficeByDoctorId(int doctorId);
+    //Office getOfficeByDoctorId(int doctorId);
 
     Office updateOfficeDetails(Office updatedOfficeData);
 
-    Office getOfficeByUserId(int userId);
+    //Office getOfficeByUserId(int userId);
 }

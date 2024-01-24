@@ -33,6 +33,9 @@ export default {
     const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
     return filteredByDoctor;
   },
+  // getAppointmentsByDoctorId(doctorId) {
+  //   return http.get(/appointments/doctor/${doctorId})
+  // }
 
   async getAppointmentsByDoctorIdAndDate(doctorId, date) {
     const appointments = await this.getAllAppointments();

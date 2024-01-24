@@ -175,8 +175,8 @@ export default {
         },
     },
     async beforeMount() {
-        this.patientId = parseInt(localStorage.getItem('patientId'));
-
+        //this.patientId = parseInt(localStorage.getItem('patientId'));
+        this.patientId = this.$store.state.patientId;
         const response = await doctorService.getAllDoctors();
         this.availableDoctors = response.data;
     }

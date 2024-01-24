@@ -60,13 +60,12 @@ export default {
     },
     data() {
         return {
-            doctorId: null,
             selectedDayOfWeek: 'MONDAY',
             availabilities: null,
         }
     },
     async beforeMount() {
-        this.doctorId = parseInt(localStorage.getItem('doctorId'));
+        //this.doctorId = parseInt(localStorage.getItem('doctorId'));
         const availabilitySet = await availabilityService.getAllAvailabilityByDoctorId(this.doctorId);
 
         this.availabilities = getDayNames()
@@ -76,7 +75,11 @@ export default {
             }, {});
     },
     computed: {
+        doctorId() {
+            return this.$store.state.doctorId;
+        },
         availabilitiesBySelectedDay() {
+            //console.log({availabilitiesFromAPI: this.availabilities, availabilitiesByDay: this.availabilities?.[this.selectedDayOfWeek]})
             return this.availabilities?.[this.selectedDayOfWeek]
                 ?.filter(availability => availability.state !== 'removed');
         },

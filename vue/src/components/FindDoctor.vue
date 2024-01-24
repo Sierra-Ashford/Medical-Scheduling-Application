@@ -12,7 +12,7 @@
         
           <div class="doctor-info">
             <h2>{{ doctor.firstName }} {{ doctor.lastName }}</h2>
-            <p>{{ doctor.specialty }}</p>
+            <p>{{ doctor.specialty }} {{ doctor.costPerHour }}</p>
           </div>
         </div>
 

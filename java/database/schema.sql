@@ -20,22 +20,20 @@ CREATE TABLE office (
     name varchar(50) NOT NULL ,
     address varchar(200) ,
     phone_number varchar(50) ,
-    cost_per_hr int ,
-    office_hr int,
+    office_hr varchar(20),
     CONSTRAINT PK_office_id PRIMARY KEY (office_id)
 );
 
 CREATE TABLE doctors (
     doctor_id SERIAL,
     user_id int,
-    office_id int,
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
     specialty varchar(50) NOT NULL,
+    cost_per_hr numeric,
     headshot varchar(100),
     CONSTRAINT PK_doctors PRIMARY KEY (doctor_id),
-    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT FK_office_id FOREIGN KEY (office_id) REFERENCES office(office_id)
+    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 

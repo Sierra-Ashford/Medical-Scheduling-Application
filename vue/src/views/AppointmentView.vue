@@ -29,7 +29,8 @@ export default {
     }
   },
   beforeMount() {
-    this.doctorId = parseInt(localStorage.getItem('doctorId'));
+    this.doctorId = this.$store.state.doctorId;
+    //this.doctorId = parseInt(localStorage.getItem('doctorId'));
   }
 }
 </script>

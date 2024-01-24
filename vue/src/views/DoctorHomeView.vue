@@ -17,7 +17,7 @@
 
       <div class="appointments">
 
-        <AppointmentCalendar :currentDoctorId="doctorId"></AppointmentCalendar>
+        <!-- <AppointmentCalendar :currentDoctorId="doctorId"></AppointmentCalendar> -->
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
 <script>
 import Navbar from '../components/NavBar.vue'
 // import NotificationsList from '../components/NotificationsList.vue';
-import AppointmentCalendar from '../components/AppointmentCalendar.vue';
+// import AppointmentCalendar from '../components/AppointmentCalendar.vue';
 
 export default {
   data() {
@@ -37,7 +37,7 @@ export default {
   components: {
     Navbar,
     // NotificationsList,
-    AppointmentCalendar,
+    // AppointmentCalendar,
   },
   computed: {
     navbarButtonText() {
@@ -48,7 +48,8 @@ export default {
     }
   },
   beforeMount() {
-    this.doctorId = parseInt(localStorage.getItem('doctorId'));
+    this.doctorId = this.$store.state.doctorId;
+    //this.doctorId = parseInt(localStorage.getItem('doctorId'));
   }
 };
 </script>

@@ -10,7 +10,6 @@
       <h2> MedConnect</h2>
       <p> {{ officeDetails.address }}</p>
       <p> {{ officeDetails.phoneNumber }}</p>
-      <p>Cost per Hour: ${{ officeDetails.costPerHr }}</p>
       <p>Office Hours: {{ officeDetails.officeHr }}</p>
       <button @click="toggleEditMode" class="button">Edit Office Details</button>
     </div>
@@ -21,9 +20,6 @@
 
         <label for="phoneNumber" class="label">Phone Number:</label>
         <input v-model="officeDetails.phoneNumber" id="phoneNumber" required class="blue-border">
-
-        <label for="costPerHr" class="label">Cost per Hour:</label>
-        <input v-model="officeDetails.costPerHr" id="costPerHr" type="number" required class="blue-border">
 
         <label for="officeHr" class="label">Office Hours:</label>
         <input v-model="officeDetails.officeHr" id="officeHr" required class="blue-border">
@@ -44,16 +40,13 @@ export default {
       officeDetails: {
         address: '',
         phoneNumber: '',
-        costPerHr: 0,
         officeHr: '',
 
       },
     };
   },
-  async created() {
+  async beforeMount() {
     try {
-      const user = this.$store.getters.getCurrentUser;
-
       await this.fetchOfficeDetails();
 
     } catch (userError) {
@@ -65,11 +58,10 @@ export default {
   methods: {
     async fetchOfficeDetails() {
       try {
-        const office = await OfficeService.getOfficeByUserId(this.$store.getters.getCurrentUser.id);
+        const office = await OfficeService.getOfficeById(this.$store.state.officeId);
 
         this.officeDetails.address = office.data.address;
-        this.officeDetails.phoneNumber = office.data.phoneNumber; 
-        this.officeDetails.costPerHr = office.data.costPerHr; 
+        this.officeDetails.phoneNumber = office.data.phoneNumber;  
         this.officeDetails.officeHr = office.data.officeHr; 
 
       } catch (officeError) {
@@ -82,26 +74,26 @@ export default {
 
     async updateOfficeDetails() {
   try {
-    const currentUserID = this.$store.getters.getCurrentUser.id;
+    //const currentUserID = this.$store.getters.getCurrentUser.id;
   
-    if (currentUserID) {
-      const office = await OfficeService.getOfficeByUserId(currentUserID);
-      this.officeDetails.id = office.data.office_id;
+    //if (currentUserID) {
+      //const office = await OfficeService.getOfficeById(this.$store.state.officeId);
+      //this.officeDetails.id = office.data.officeId;
 
       // Update office details
-      await OfficeService.update(this.officeDetails.id, this.officeDetails);
+      await OfficeService.update(this.$store.state.officeId, this.officeDetails);
 
       // Fetch updated office details
-      await this.fetchOfficeDetails();
+      //await this.fetchOfficeDetails();
 
       // Move the console.log statement here
 
       console.log('Office details updated successfully');
       this.editMode = false;
-    } else {
-      console.error("User ID is null.");
+    //} else {
+      //console.error("User ID is null.");
       // Handle the situation where the user ID is null
-    }
+    //}
   } catch (error) {
     console.error("Error updating office details:", error);
   }

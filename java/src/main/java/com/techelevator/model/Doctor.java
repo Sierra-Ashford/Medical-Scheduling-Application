@@ -3,11 +3,19 @@ package com.techelevator.model;
 public class Doctor {
     private int doctorId;
     private int userId;
-    private int officeID;
     private String firstName;
     private String lastName;
     private String specialty;
+    private Double costPerHour;
     private String headshot;
+
+    public Double getCostPerHour() {
+        return costPerHour;
+    }
+
+    public void setCostPerHour(Double costPerHour) {
+        this.costPerHour = costPerHour;
+    }
 
     public String getHeadshot() {
         return headshot;
@@ -17,13 +25,6 @@ public class Doctor {
         this.headshot = headshot;
     }
 
-    public int getOfficeID() {
-        return officeID;
-    }
-
-    public void setOfficeID(int officeID) {
-        this.officeID = officeID;
-    }
 
     public Doctor() {};
     public Doctor(int doctorId, int userId, String firstName, String lastName, String specialty) {
