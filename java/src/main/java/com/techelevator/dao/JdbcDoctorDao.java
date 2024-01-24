@@ -38,25 +38,11 @@ public class JdbcDoctorDao implements DoctorDao{
         return doctor;
     }
 
-    //Do not need anymore
-    @Override
-    public List<Doctor> getDoctorsByOfficeId(int officeId) {
-        List<Doctor> doctors = new ArrayList<>();
-        String sql = "SELECT d.doctor_id, user_id, first_name, last_name, d.specialty, d.headshot" +
-                " FROM doctors d JOIN office o " +
-                "ON d.doctor_id = o.doctor_id WHERE office_id = ?";
-        SqlRowSet row = jdbcTemplate.queryForRowSet(sql, officeId);
-        while (row.next()) {
-            doctors.add(mapRowToDoctor(row));
-        }
-        return doctors;
-    }
-
     //tested in postman
         @Override
         public Doctor createDoctor(Doctor newDoctor) {
-            String sql = "INSERT INTO doctors (user_id, office_id, first_name, last_name, specialty, headshot) VALUES (?, ?, ?, ?, ?, ?) RETURNING doctor_id;";
-            int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(), newDoctor.getOfficeID(),
+            String sql = "INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES (?, ?, ?, ?, ?) RETURNING doctor_id;";
+            int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(),
                     newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty(), newDoctor.getSpecialty());
 
             newDoctor.setDoctorId(createdDoctorId);
@@ -66,7 +52,7 @@ public class JdbcDoctorDao implements DoctorDao{
 
     @Override
     public Doctor updateDoctor(Doctor doctor) {
-        String sql = "UPDATE doctors SET user_id = ?, first_name = ?, last_name = ?, specialty = ? , headshot = ? WHERE doctor_id = ?";
+        String sql = "UPDATE doctors SET user_id = ?, first_name = ?, last_name = ?, specialty = ? ,   headshot = ? WHERE doctor_id = ?";
         jdbcTemplate.update(sql, doctor.getUserId(), doctor.getFirstName(), doctor.getLastName(), doctor.getSpecialty(), doctor.getHeadshot(), doctor.getDoctorId());
 
         return getDoctorById(doctor.getDoctorId());
@@ -86,6 +72,7 @@ public class JdbcDoctorDao implements DoctorDao{
         doctor.setFirstName(row.getString("first_name"));
         doctor.setLastName(row.getString("last_name"));
         doctor.setSpecialty(row.getString("specialty"));
+//        doctor.setCostPerHour(row.getInt("cost_per_hr"));
         doctor.setHeadshot(row.getString("headshot"));
 
 

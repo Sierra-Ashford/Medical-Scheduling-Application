@@ -39,8 +39,8 @@ INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
 
 
 -- Sample data for office table
-INSERT INTO office (name, address, phone_number, cost_per_hr, office_hr) VALUES
-('TE Wellness Center', '123 Main St, Cityville', '555-1234', 150, 8);
+INSERT INTO office (name, address, phone_number, office_hr) VALUES
+('TE Wellness Center', '123 Main St, Cityville', '555-1234', '8:00-8:00');
 
 
 -- Sample data for patients table

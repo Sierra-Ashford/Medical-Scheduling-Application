@@ -1,12 +1,12 @@
 <template>
   <div class="find-doctor-container">
     <div class="search-bar">
-      <input type="text" v-model="searchQuery" placeholder="Search by: Physician Name, Specialty, Office Hours" />
+      <input type="text" v-model="searchQuery" placeholder="Search by: Physician Name, Specialty" />
       <button @click="searchDoctors">🔍</button>
     </div>
 
     <div class="doctors-list">
-      <div v-for="doctor in doctors" :key="doctor.doctorId" class="doctor-card">
+      <div v-for="doctor in filteredDoctors" :key="doctor.doctorId" class="doctor-card">
         <div class="doctor-profile">
           <img :src="doctor.headshot" alt="Doctor's headshot" class="doctor-headshot" />
         
@@ -17,7 +17,7 @@
         </div>
 
         <div class="doctor-actions">
-          <button @click="createAppointment(doctor.doctorId)">Create Appointment</button>
+          <button @click="navigateToBookAppointment(doctor.doctorId)">Create Appointment</button>
           <button v-on:click="$router.push({ name: 'leave-review', params: {doctorId: doctor.doctorId} })">Reviews</button>
         </div>
       </div>
@@ -36,6 +36,19 @@ export default {
       loading: false
     };
   },
+  computed: {
+    filteredDoctors() {
+      if (!this.searchQuery) return this.doctors;
+      const searchLowerCase = this.searchQuery.toLowerCase();
+      return this.doctors.filter(doctor => {
+        return (
+          doctor.firstName.toLowerCase().includes(searchLowerCase) ||
+          doctor.lastName.toLowerCase().includes(searchLowerCase) ||
+          doctor.specialty.toLowerCase().includes(searchLowerCase)
+        );
+      });
+    }
+  },
   methods: {
     async searchDoctors() {
       this.loading = true;
@@ -48,8 +61,8 @@ export default {
         this.loading = false;
       }
     },
-    createAppointment(doctorId) {
-      console.log('Creating appointment for doctor ID:', doctorId);
+    navigateToBookAppointment(doctorId) {
+      this.$router.push({ name: 'book-appointment', params: { doctorId: doctorId } });
     },
     viewReviews(doctorId) {
       this.$router.push({ name: 'leave-review', params: { doctorId } });
@@ -96,7 +109,9 @@ export default {
     text-align: left;
     padding: 1rem;
     border-radius: 8px;
-    width: 100%;
+    width: calc(100% - 2rem);
+    margin: auto;
+    border-right: 2px solid #ddd;
   }
   .doctor-profile {
   display: flex;

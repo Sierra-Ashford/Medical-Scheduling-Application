@@ -119,9 +119,6 @@ export default {
         phoneNumber: '',
         email: '',
       },
-      office: {
-        name: 'MedConect',
-      },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
@@ -150,12 +147,12 @@ export default {
             const patient = await PatientService.create({ ...this.patient, userId: response.data.id });
             //console.log(patient);
           } else {
-            const office = await OfficeService.create({ ...this.office });
-            const officeID = office.data.office_id;
+          //  const office = await OfficeService.create({ ...this.office });
+          //   const officeID = office.data.office_id;
 
-            console.log('officeID:', officeID);
+          //   console.log('officeID:', officeID);
 
-            await DoctorService.create({ ...this.doctor, userId: response.data.id, officeID });
+            const doctor = await DoctorService.create({ ...this.doctor, userId: response.data.id });
           }
 
           this.$router.push({
@@ -174,53 +171,8 @@ export default {
         }
       }
     },
-    register2() {
-      if (this.user.password != this.user.confirmPassword) {
-        this.registrationErrors = true;
-        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-      } else {
-        console.log(`Calling auth service`);
-        console.log({ user: this.user, doctor: this.doctor, patient: this.patient });
-        authService
-          .register(this.user)
-          .then((response) => {
-            console.log(response);
-            if (response.status == 201) {
-              // create patient or doctor
-              if (this.user.role === 'ROLE_PATIENT') {
-                PatientService
-                  .create({ ...this.patient, userId: response.body.userId })
-                  .then(response => {
-                    console.log(response);
-                    this.$router.push({
-                      path: '/login',
-                      query: { registration: 'success' },
-                    });
-                  });
-              } else {
-                DoctorService
-                  .create({ ...this.doctor, userId: response.body.userId })
-                  .then(response => {
-                    console.log(response);
-                    this.$router.push({
-                      path: '/login',
-                      query: { registration: 'success' },
-                    });
-                  });
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(`Error during auth call`);
-            console.log(error.response);
-            const response = error.response;
-            this.registrationErrors = true;
-            if (response.status === 400) {
-              this.registrationErrorMsg = 'Bad Request: Validation Errors';
-            }
-          });
-      }
-    },
+    
+    
     clearErrors() {
       this.registrationErrors = false;
       this.registrationErrorMsg = 'There were problems registering this user.';

@@ -6,11 +6,8 @@ import java.util.List;
 
 public interface DoctorDao {
     List<Doctor> getAllDoctors();
-
     Doctor getDoctorById(int doctorId);
-    List<Doctor> getDoctorsByOfficeId(int officeId);
     public Doctor createDoctor(Doctor newDoctor);
-
     Doctor updateDoctor(Doctor doctor);
     void deleteDoctor(int doctorId);
 }

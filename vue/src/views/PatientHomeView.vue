@@ -1,52 +1,40 @@
 <template>
   <div class="grid-container">
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
-
-
-
-    <div class="container">
-      <h1> My Dashboard</h1>
-
-    </div>
-    <div class="box">
-
-
-      <div class="placeholder">
-        <img src="src\images\patient-profile.png" alt="PatientInfo" width="650" 
-     height="500">
-
-      </div>
-
-
-      <div class="notifications">
-        <NotificationsList :currentPatientId="1"></NotificationsList>
-      </div>
-
-
+    <div class="home">
+      <h1> Patient Home</h1>
+      <!-- <NotificationsList :currentPatientId="1"></NotificationsList> -->
+      <PatientInfo />
     </div>
 
 
   </div>
 </template>
   
-<script>
-import Navbar from '../components/NavBar.vue';
-import NotificationsList from '../components/NotificationsList.vue';
+  <script>
+  import Navbar from '../components/NavBar.vue';
+  import NotificationsList from '../components/NotificationsList.vue';
+  import PatientInfo from '../components/PatientInfo.vue';
 
-export default {
-  components: {
-    Navbar,
-    NotificationsList,
-  },
-  computed: {
-    navbarButtonText() {
-      return "Log Out";
+  export default {
+    components: {
+      Navbar,
+      //  NotificationsList,
+      PatientInfo
+    },
+    computed: {
+      navbarButtonText() {
+        return "Log Out";
+      },
+      navbarButtonDestination() {
+        return "logout";
+      }
     },
     navbarButtonDestination() {
       return "logout";
     }
-  },
-};
+  }
+
 </script>
 
 

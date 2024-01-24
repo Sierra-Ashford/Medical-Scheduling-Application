@@ -5,18 +5,12 @@ export default {
         return axios.post('/offices', officeData);
       },
     getAllOffices(){
-        return axios.get("/offices/all");
+        return axios.get("/offices");
     },
     getOfficeById(officeId){
         return axios.get('/offices/' + officeId);
     },
-    getOfficeByDoctorId(doctorId){
-        return axios.get(`/offices/doctor/${doctorId}`);
-    },
     update(officeId, officeDetails) {
-        return axios.put(`/offices/update/${officeId}`, officeDetails);
+        return axios.put(`/offices/${officeId}`, officeDetails);
       },
-    getOfficeByUserId(userId){
-        return axios.get('/offices/user/' + userId);
-    },
 }

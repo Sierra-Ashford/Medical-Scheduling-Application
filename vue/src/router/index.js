@@ -14,6 +14,9 @@ import DoctorHomeView from '../views/DoctorHomeView.vue';
 import DoctorReviews from '../views/DoctorReviewsView.vue';
 import LeaveReview from '../views/LeaveReviewView.vue';
 
+import PrescriptionView from '../views/PrescriptionView.vue';
+import MyPatientsView from '../views/MyPatientsView.vue';
+
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -97,7 +100,7 @@ const routes = [
   },
   {
     path: "/book-appointment",
-    name: "book-appointment",
+    name: "bookAppointment",
     component: BookAppointmentView,
   }, 
   {
@@ -115,6 +118,19 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/prescriptions",
+    name: "prescriptions",
+    component: PrescriptionView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/myPatients",
+    name: "myPatients",
+    component: MyPatientsView,
   }
 
 ];

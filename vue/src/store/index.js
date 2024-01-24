@@ -6,15 +6,17 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      doctorId: undefined,
-      patientId: undefined,
+      doctorId: parseInt(localStorage.getItem('doctorId')) || null,
+      patientId: parseInt(localStorage.getItem('patientId')) || null,
       currentLoggedInPatient: "",
+      selectedPatientId: null,
+      officeId: 1,
+      doctorMode: !!localStorage.getItem('doctorId'),
+      patientMode: !!localStorage.getItem('patientId'),
     },
     getters: {
       getRole: state => {
-        if(Object.keys(state.user).length != 0){
-          return state.user.authorities[0].name;
-        }
+        return state.doctorMode ? 'ROLE_DOCTOR' : state.patientMode ? 'ROLE_PATIENT' : null;
       },
       getCurrentUser: state => {
         return state.user;
@@ -32,12 +34,22 @@ export function createStore(currentToken, currentUser) {
         localStorage.setItem('user', JSON.stringify(user));
       },
       SET_DOCTOR_ID(state, id) {
+        console.log({from:'SET_DOCTOR_ID', state, id});
         state.doctorId = id;
+        state.patientId = null;
+        state.doctorMode = true;
+        state.patientMode = false;
         localStorage.setItem('doctorId', JSON.stringify(id));
+        localStorage.removeItem('patientId');
       },
       SET_PATIENT_ID(state, id) {
+        console.log({from:'SET_PATIENT_ID', state, id});
         state.patientId = id;
+        state.doctorId = null;
+        state.patientMode = true;
+        state.doctorMode = false;
         localStorage.setItem('patientId', JSON.stringify(id));
+        localStorage.removeItem('doctorId');
       },
       LOGOUT(state) {
         localStorage.removeItem('token');
@@ -46,11 +58,16 @@ export function createStore(currentToken, currentUser) {
         localStorage.removeItem('patientId');
         state.token = '';
         state.user = {};
+        state.doctorId = null;
+        state.patientId = null;
         axios.defaults.headers.common = {};
       },
       SET_ERROR_MESSAGE(state, errorMessage) {
         state.errorMessage = errorMessage;
-      }
+      },
+      SET_SELECTED_PATIENT_ID(state, patientId) {
+        state.selectedPatientId = patientId;
+      },
     },
   });
   return store;

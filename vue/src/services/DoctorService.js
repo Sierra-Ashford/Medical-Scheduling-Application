@@ -7,7 +7,7 @@ const http = axios.create({
 export default {
 
   create(doctorData) {
-    return axios.post('/doctors', doctorData, { params: { officeID: doctorData.officeID } });
+    return axios.post('/doctors', doctorData);
   },
   getAllDoctors() {
     return http.get('/doctors');

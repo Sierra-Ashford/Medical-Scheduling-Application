@@ -40,10 +40,6 @@ public class AppointmentController {
 //    public Appointment getAllAppointmentByDoctorId(@PathVariable int doctorId) {
 //        return appointmentDao.getAppointmentById(doctorId);
 //    }
-    @RequestMapping(path = "/doctors/{doctorId}", method = RequestMethod.GET)
-    public List<Appointment> getAllAppointmentsByDoctorId(@PathVariable int doctorId) {
-        return appointmentDao.getAllAppointmentByDoctorId(doctorId);
-    }
 
     @RequestMapping(path = "/{appointmentId}", method = RequestMethod.GET)
     public Appointment getAvailabilityById(@PathVariable int appointmentId) {
@@ -64,5 +60,15 @@ public class AppointmentController {
     public ResponseEntity<Appointment> updateAppointment(@RequestBody Appointment appointment, @PathVariable int appointmentId) {
         appointment.setAppointmentId(appointmentId);
         return new ResponseEntity<>(appointmentDao.updateAppointment(appointment), HttpStatus.OK);
+    }
+    @GetMapping("/doctor/{doctorId}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByDoctorId(@PathVariable int doctorId) {
+        List<Appointment> appointments = appointmentDao.getAppointmentsByDoctorId(doctorId);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByPatientId(@PathVariable int patientId) {
+        List<Appointment> appointments = appointmentDao.getAllAppointmentByPatientId(patientId);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 }

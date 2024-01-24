@@ -35,6 +35,7 @@ export default {
   async getAllAvailabilityByDoctorId(doctorId) {
     const availabilities = await this.getAllAvailability();
     const filteredByDoctor = availabilities.filter(availability => availability.doctorId === doctorId);
+    console.log({doctorId, availabilities, filteredByDoctor})
 
     return filteredByDoctor;
   },
