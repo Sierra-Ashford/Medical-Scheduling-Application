@@ -12,12 +12,13 @@
       <div class="notifications">
 
 
-        <NotificationsList></NotificationsList>
+        <NotificationsList :currentDoctorId="this.$store.state.doctorId ?? 2" ></NotificationsList>
       </div>
 
       <div class="appointments">
 
-        <AppointmentCalendar :currentDoctorId="1"></AppointmentCalendar>
+        <AppointmentCalendar :currentDoctorId="this.$store.state.doctorId ?? 2" ></AppointmentCalendar>
+
       </div>
     </div>
   </div>
@@ -80,11 +81,6 @@ export default {
 .appointments {
   width: 50%;
   height: 100vh;
-  background-color: #B6E2EF;
-  text-align: center;
-  color: rgb(0, 0, 0);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
 }
 
 .notifications {

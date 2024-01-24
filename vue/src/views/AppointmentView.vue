@@ -2,7 +2,7 @@
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div>
 
-        <AppointmentCalendar :currentDoctorId="1"></AppointmentCalendar>
+        <AppointmentCalendar v-bind=getAppointmentsByDoctorId(doctorId)></AppointmentCalendar>
     </div>
 </template>
 
@@ -23,5 +23,10 @@ export default {
         return "logout";
       }
     },
+    methods:{
+      getDoctorId() {
+       this.$store.state.find(doctor=> doctor.id == id)
+    }
+    }
 }
 </script>

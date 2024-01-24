@@ -1,13 +1,14 @@
 <template>
     <div class="appointment">
         <p class="appointment-message">
-            {{ appointment-message }} </p>
+            {{ getDisplayTime(appointment.appointmentStartTime) }} - {{ getDisplayTime(appointment.appointmentEndTime) }} <em>{{ appointment.notes }}</em> </p>
            
     </div>
 </template>
 
 
 <script>
+import { getHours, getMinutes } from 'date-fns';
 export default{
     props: {
         appointment:{
@@ -15,6 +16,23 @@ export default{
             default:null
         }
     },
+    methods:{
+        getDisplayTime(dateTime){
+            let hour = getHours(dateTime);
+            let convertedHour = this.convertHourFromMilitaryTime(hour);
+            let minutes = getMinutes(dateTime);
+            let suffix = this.getTimeSuffix(hour);
+            return convertedHour + ":" + minutes + " " + suffix;
+        },
+        convertHourFromMilitaryTime(hour) {
+            hour = (hour > 12)? hour -12 : hour;
+            hour = (hour == '00')? 12 : hour;
+            return hour;
+        },
+        getTimeSuffix(hour){
+            return (hour >= 12)? 'pm' : 'am';
+        }
+    }
    
 }
 

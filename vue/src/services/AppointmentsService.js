@@ -41,5 +41,17 @@ export default {
     const appointments = await this.getAllAppointments();
     const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
     return filteredByDoctor;
-  }
+  },
+  async getAppointmentsByDoctorIdAndDateString(doctorId, date) {
+    const appointments = await this.getAllAppointments();
+    const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
+    const filteredByDate = filteredByDoctor.filter(appointment => 
+      new Date(appointment.appointmentStartTime).getUTCDay() == new Date(date).getUTCDay()
+    );
+    const mappedToDates = filteredByDate.map(appointment => ({ ...appointment, startDateTime: new Date(appointment.appointmentStartTime), endDateTime: new Date(appointment.appointmentEndTime) }))
+    //console.log('Calling from getAppointmentsByDoctorIdAndDate');
+    //console.log(filteredByDoctor.map(appt => getDate(new Date(appt.appointmentStartTime))))
+    //console.log({doctorId, date, appointments, filteredByDoctor, filteredByDate, mappedToDates});
+    return mappedToDates;
+  },
 }

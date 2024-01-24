@@ -18,7 +18,7 @@
           {{getTimeslotString(timeslot)}}
         </h3>
         <button
-          v-on:click="() => { bookAppointment(appointment); $emit('appt-booked'); console.log('event emitted') }">Book this
+          v-on:click="() => { bookAppointment(appointment); $emit('appt-booked'); console.log('event emitted') }" @click="routeToPatientHome">Book this
           time</button>
         <!-- <button v-if=appointment.isBooked v-bind:disabled="data.isBooked">UNAVAILABLE</button> -->
       </div>
@@ -67,6 +67,9 @@ export default {
         appointmentEndTime: appointment.endTime,
         notes: ''
       });
+    },
+    routeToPatientHome(){
+      location.assign('http://127.0.0.1:5173/patient')
     }
   }
 };

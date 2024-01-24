@@ -39,13 +39,13 @@ export default {
         getAppointmentsForDoctor() {
             return AppointmentsService.getAppointmentsByDoctorId(this.currentDoctorId).then((results)=>{
             // return AppointmentsService.getAllAppointments().then((results) => {
-                // let doctorAppointments = [];
-                // for(let appt of results){
-                //     if (appt.doctorId == this.currentDoctorId){
-                //         doctorAppointments.push(appt);
-                //     } 
-                // }
-                // this.appointments = doctorAppointments;
+            //     let doctorAppointments = [];
+            //     for(let appt of results){
+            //         if (appt.doctorId == this.currentDoctorId){
+            //             doctorAppointments.push(appt);
+            //         } 
+            //     }
+            //     this.appointments = doctorAppointments;
                 this.appointments = results;
                 this.buildNotificationsList(this.appointments);
             });
