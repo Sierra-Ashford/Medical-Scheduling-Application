@@ -6,16 +6,10 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String specialty;
-    private Double costPerHour;
+
     private String headshot;
 
-    public Double getCostPerHour() {
-        return costPerHour;
-    }
 
-    public void setCostPerHour(Double costPerHour) {
-        this.costPerHour = costPerHour;
-    }
 
     public String getHeadshot() {
         return headshot;

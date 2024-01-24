@@ -30,7 +30,6 @@ CREATE TABLE doctors (
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
     specialty varchar(50) NOT NULL,
-    cost_per_hr numeric,
     headshot varchar(100),
     CONSTRAINT PK_doctors PRIMARY KEY (doctor_id),
     CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)

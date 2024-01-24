@@ -41,9 +41,9 @@ public class JdbcDoctorDao implements DoctorDao{
     //tested in postman
         @Override
         public Doctor createDoctor(Doctor newDoctor) {
-            String sql = "INSERT INTO doctors (user_id, first_name, last_name, specialty, cost_per_hr, headshot) VALUES (?, ?, ?, ?, ?, ?) RETURNING doctor_id;";
+            String sql = "INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES (?, ?, ?, ?, ?) RETURNING doctor_id;";
             int createdDoctorId = jdbcTemplate.queryForObject(sql, Integer.class, newDoctor.getUserId(),
-                    newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty(), newDoctor.getSpecialty(), newDoctor.getCostPerHour());
+                    newDoctor.getFirstName(), newDoctor.getLastName(), newDoctor.getSpecialty(), newDoctor.getSpecialty());
 
             newDoctor.setDoctorId(createdDoctorId);
 
@@ -52,8 +52,8 @@ public class JdbcDoctorDao implements DoctorDao{
 
     @Override
     public Doctor updateDoctor(Doctor doctor) {
-        String sql = "UPDATE doctors SET user_id = ?, first_name = ?, last_name = ?, specialty = ? , cost_per_hr = ?,  headshot = ? WHERE doctor_id = ?";
-        jdbcTemplate.update(sql, doctor.getUserId(), doctor.getFirstName(), doctor.getLastName(), doctor.getSpecialty(), doctor.getCostPerHour(), doctor.getHeadshot(), doctor.getDoctorId());
+        String sql = "UPDATE doctors SET user_id = ?, first_name = ?, last_name = ?, specialty = ? ,   headshot = ? WHERE doctor_id = ?";
+        jdbcTemplate.update(sql, doctor.getUserId(), doctor.getFirstName(), doctor.getLastName(), doctor.getSpecialty(), doctor.getHeadshot(), doctor.getDoctorId());
 
         return getDoctorById(doctor.getDoctorId());
     }
@@ -72,7 +72,7 @@ public class JdbcDoctorDao implements DoctorDao{
         doctor.setFirstName(row.getString("first_name"));
         doctor.setLastName(row.getString("last_name"));
         doctor.setSpecialty(row.getString("specialty"));
-        doctor.setCostPerHour(row.getDouble("cost_per_hr"));
+//        doctor.setCostPerHour(row.getInt("cost_per_hr"));
         doctor.setHeadshot(row.getString("headshot"));
 
 

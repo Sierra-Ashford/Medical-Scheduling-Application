@@ -28,14 +28,14 @@ INSERT INTO users (username, password_hash, role) VALUES
 ('oramirez', '$2a$10$dP8S4PGjq7OEDgK3a5IeNex9N25K0.jv98.jCWT5xBuQayXvcEHSm', 'ROLE_PATIENT');
 
 -- Sample data for doctors table
-INSERT INTO doctors (user_id, first_name, last_name, specialty, cost_per_hr, headshot) VALUES
-(3, 'Alexander ', 'Bennett', 'Cardiology', 150, 'https://files.slack.com/files-tmb/T0GNFLF6D-F06ESKZFE3W-aaeadfd9f0/image_480_480.png'),
-(4, 'Harper ', 'Lewis', 'Pediatrics', 200, 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E9KXK97H-e95ccf5319/image_720_720.png'),
-(5, 'Noah  ', 'Foster', 'Neurology', 125, 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CNT8J2-5ae3afc1f3/image_720.png'),
-(6, 'Sebastian  ', 'Patel', 'Physical Therapy', 170, 'https://files.slack.com/files-tmb/T0GNFLF6D-F06DWFAECVD-9dce1ce3ee/image_720.png'),
-(7, 'Aria  ', 'Williams', 'Nutrition', 165, 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CK351U-b2ec5d86ac/image_720.png'),
-(8, 'Liam  ', 'Mitchell', 'General Practitioner', 120, 'https://files.slack.com/files-pri/T0GNFLF6D-F06DWF6U7AT/image.png'),
-(9, 'Grace  ', 'Taylor', 'OBGYN', 185, 'https://files.slack.com/files-pri/T0GNFLF6D-F06E4CF8LUE/image.png');
+INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
+(3, 'Alexander ', 'Bennett', 'Cardiology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06ESKZFE3W-aaeadfd9f0/image_480_480.png'),
+(4, 'Harper ', 'Lewis', 'Pediatrics', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E9KXK97H-e95ccf5319/image_720_720.png'),
+(5, 'Noah  ', 'Foster', 'Neurology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CNT8J2-5ae3afc1f3/image_720.png'),
+(6, 'Sebastian  ', 'Patel', 'Physical Therapy', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06DWFAECVD-9dce1ce3ee/image_720.png'),
+(7, 'Aria  ', 'Williams', 'Nutrition', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CK351U-b2ec5d86ac/image_720.png'),
+(8, 'Liam  ', 'Mitchell', 'General Practitioner', 'https://files.slack.com/files-pri/T0GNFLF6D-F06DWF6U7AT/image.png'),
+(9, 'Grace  ', 'Taylor', 'OBGYN', 'https://files.slack.com/files-pri/T0GNFLF6D-F06E4CF8LUE/image.png');
 
 
 -- Sample data for office table

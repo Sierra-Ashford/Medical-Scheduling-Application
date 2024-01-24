@@ -5,7 +5,7 @@ public class Office {
     private String name;
     private String address;
     private String phoneNumber;
-    private int officeHr;
+    private String officeHr;
 
     public int getOfficeId() {
         return officeId;
@@ -39,11 +39,11 @@ public class Office {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getOfficeHr() {
+    public String getOfficeHr() {
         return officeHr;
     }
 
-    public void setOfficeHr(int officeHr) {
+    public void setOfficeHr(String officeHr) {
         this.officeHr = officeHr;
     }
 }

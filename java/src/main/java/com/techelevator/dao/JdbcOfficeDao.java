@@ -56,7 +56,7 @@ public class JdbcOfficeDao implements OfficeDao {
         office.setAddress(row.getString("address"));
         office.setPhoneNumber(row.getString("phone_number"));
         //office.setSpecialty(row.getString("specialty"));
-        office.setOfficeHr(row.getInt("office_hr"));
+        office.setOfficeHr(row.getString("office_hr"));
         return office;
     }
 
