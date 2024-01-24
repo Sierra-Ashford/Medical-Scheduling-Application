@@ -15,15 +15,17 @@ INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpUL
 
 -- Sample data for users table
 INSERT INTO users (username, password_hash, role) VALUES
-('user1', 'hashed_password_1', 'ROLE_PATIENT'),
-('user2', 'hashed_password_2', 'ROLE_PATIENT'),
-('user3', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user4', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user5', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user6', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user7', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user8', 'hashed_password_3', 'ROLE_DOCTOR'),
-('user9', 'hashed_password_3', 'ROLE_DOCTOR');
+('abennett', '$2a$10$A6Wik6Gm/SqTOBeYcz//N.7D2XnP.Y7BhEZrGvCth8N1N.3agn8fC', 'ROLE_DOCTOR'),
+('hlewis', '$2a$10$Jb6dCIUn5AF9ltOWApgEs.vuoSVxU5CsCJ.G3NxxBv1KxJUKJttxW', 'ROLE_DOCTOR'),
+('nfoster', '$2a$10$TLVPLC4RocgxorYWlv/fPeZjn8MNR7ymP85ydIx0GqPt6TPQE7xne', 'ROLE_DOCTOR'),
+('spatel', '$2a$10$ORFp831GFU7QUwyj.lGKDOEhiDOfW/59dpEE.C9zTNrmN7qp0ktTS', 'ROLE_DOCTOR'),
+('awilliams', '$2a$10$tCEkXCJbcO1jGxIiuT9okuF8qwWZoB2Og8ZTGgKmkSuDpYjnXvEne', 'ROLE_DOCTOR'),
+('lmitchell', '$2a$10$9Q8pzZXcW9xAxW3NeT9KuueUTc4MeEMQKMA4sVuHsj.QnKjwDzlCS', 'ROLE_DOCTOR'),
+('gtaylor', '$2a$10$mZdHpqLk81osheu8ldtmdeMLnu6jJuG7NWBVgbWVw060s6AhgMn52', 'ROLE_DOCTOR'),
+('ajohnson', '$2a$10$gDagmG1d6GHi8n4xLEdMY.n81z.tnR.izFjPbA.31eseY0bcH1NrW', 'ROLE_PATIENT'),
+('bwilliams', '$2a$10$TC6YYi4qlgRkragckBhFd.jR/jT.K9fnLtbUVjKgTkQAkMrmIYRNq', 'ROLE_PATIENT'),
+('iwang', '$2a$10$Nk4c0QNq6YLFdJ49R7d4VOMJ87BFr60F1ITJ6NShZASQIRWpLLg/q', 'ROLE_PATIENT'),
+('oramirez', '$2a$10$dP8S4PGjq7OEDgK3a5IeNex9N25K0.jv98.jCWT5xBuQayXvcEHSm', 'ROLE_PATIENT');
 
 -- Sample data for doctors table
 INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
@@ -37,30 +39,29 @@ INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
 
 
 -- Sample data for office table
-INSERT INTO office (name, address, phone_number, cost_per_hr, office_hr) VALUES
-('TE Wellness Center', '123 Main St, Cityville', '555-1234', 150, 8);
+INSERT INTO office (name, address, phone_number, office_hr) VALUES
+('TE Wellness Center', '123 Main St, Cityville', '555-1234', '8:00-8:00');
 
 
 -- Sample data for patients table
 INSERT INTO patients (user_id, first_name, last_name, birthdate, phone_number, email) VALUES
-(1, 'Alice', 'Johnson', '1990-05-15', '555-1111', 'alice@email.com'),
-(2, 'Bob', 'Williams', '1985-08-20', '555-2222', 'bob@email.com'),
-(3, 'Isabella', 'Wang', '1995-11-02', '555-3333', 'isabella@email.com'),
-(4, 'Oliver', 'Ramirez', '1980-01-01', '555-4444', 'oliver@email.com');
+(10, 'Alice', 'Johnson', '1990-05-15', '555-1111', 'alice@email.com'),
+(11, 'Bob', 'Williams', '1985-08-20', '555-2222', 'bob@email.com'),
+(12, 'Isabella', 'Wang', '1995-11-02', '555-3333', 'isabella@email.com'),
+(13, 'Oliver', 'Ramirez', '2010-01-01', '555-4444', 'oliver@email.com');
 
 -- Sample data for appointments table
 INSERT INTO appointments (doctor_id, patient_id, appointment_start_time, appointment_end_time, notes) VALUES
-(1, 1, '2024-02-01T10:00:00', '2024-02-01T11:00:00', 'Cardiology Checkup'),
-(2, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation'),
-(6, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Annual Exam'),
-(4, 2, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Physical Therapy Session');
-
+(1, 2, '2024-02-01T10:00:00', '2024-02-01T11:00:00', 'Cardiology Checkup'),
+(2, 4, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation'),
+(6, 3, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Annual Exam'),
+(4, 1, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Physical Therapy Session');
 -- Sample data for prescriptions table
 INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES
 (1, 2, 'Prednisone', 120),
 (2, 1, 'Warfarin', 205),
 (3, 6, 'Amoxicillin', 57),
-(4, 3, 'Amlodipine', 89);
+(4, 3, 'Azithromycin', 89);
 
 -- Sample data for reviews table
 INSERT INTO reviews (doctor_id, response, rating, review_note) VALUES

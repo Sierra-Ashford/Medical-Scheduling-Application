@@ -1,9 +1,9 @@
 <template>
-    <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
-    <div>
+  <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
+  <div>
 
-        <AppointmentCalendar :currentDoctorId="1"></AppointmentCalendar>
-    </div>
+    <AppointmentCalendar :currentDoctorId="doctorId"></AppointmentCalendar>
+  </div>
 </template>
 
 <script>
@@ -11,17 +11,26 @@ import Navbar from '../components/NavBar.vue';
 import AppointmentCalendar from '../components/AppointmentCalendar.vue';
 
 export default {
-    components: {
-        AppointmentCalendar,
-        Navbar,
+  data() {
+    return {
+      doctorId: null
+    }
+  },
+  components: {
+    AppointmentCalendar,
+    Navbar,
+  },
+  computed: {
+    navbarButtonText() {
+      return "Log Out";
     },
-    computed: {
-      navbarButtonText() {
-        return "Log Out";
-      },
-      navbarButtonDestination() {
-        return "logout";
-      }
-    },
+    navbarButtonDestination() {
+      return "logout";
+    }
+  },
+  beforeMount() {
+    this.doctorId = this.$store.state.doctorId;
+    //this.doctorId = parseInt(localStorage.getItem('doctorId'));
+  }
 }
 </script>

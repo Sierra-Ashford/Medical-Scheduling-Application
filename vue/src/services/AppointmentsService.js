@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {getDate, isEqual} from 'date-fns';
+import {getDate} from 'date-fns';
+import { createDateFromString } from '../utilities';
 
 const http = axios.create({
   baseURL: "http://localhost:9000"
@@ -27,25 +28,10 @@ export default {
     const response = await http.put(`/availability/${appointment.appointmentId}`, appointment);
     return response.data;
   },
-  async getAppointmentsByDoctorIdAndDate(doctorId, date) {
+  async getAppointmentsByDoctorId(doctorId) {
     const appointments = await this.getAllAppointments();
     const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
-    const filteredByDate = filteredByDoctor.filter(appointment => isEqual(getDate(new Date(appointment.appointmentStartTime)), getDate(date)));
-    const mappedToDates = filteredByDate.map(appointment => ({...appointment, startDateTime: new Date(appointment.appointmentStartTime), endDateTime: new Date(appointment.appointmentEndTime)}))
-    //console.log('Calling from getAppointmentsByDoctorIdAndDate');
-    //console.log(filteredByDoctor.map(appt => getDate(new Date(appt.appointmentStartTime))))
-    //console.log({doctorId, date, appointments, filteredByDoctor, filteredByDate, mappedToDates});
-    return mappedToDates;
+    return filteredByDoctor;
   },
-  // async getAppointmentsByDoctorId(doctorId){
-  //   const appointments = await this.getAllAppointments();
-  //   const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
-  //   return filteredByDoctor;
-  // },
-  getAppointmentsByDoctorId(doctorId) {
-    return http.get(`/appointments/doctor/${doctorId}`)
-  },
-  getAppointmentsByPatientId(patientId) {
-    return http.get(`/appointments/patient/${patientId}`)
-  }
+
 }

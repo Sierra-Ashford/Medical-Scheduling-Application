@@ -22,9 +22,7 @@ public class AvailabilityController {
     @GetMapping()
     public ResponseEntity<List<Availability>> getAllAvailableTimes() {
         List<Availability> availability = availabilityDao.getAvailableTimes();
-        if (availability.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
         return new ResponseEntity<>(availability, HttpStatus.OK);
     }
     @RequestMapping(path = "/{availabilityId}", method = RequestMethod.GET)

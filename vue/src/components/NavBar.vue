@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <div class="brand-container">
-    <img src="src\Images\image.png" alt="Logo" class="logo" />
+    <img src="../Images/image.png" alt="Logo" class="logo" />
     <h1 class="brand">MedConnect</h1>
     </div>
     <router-link v-if="isPatient" to="/patient"  class="nav-link">Home</router-link>

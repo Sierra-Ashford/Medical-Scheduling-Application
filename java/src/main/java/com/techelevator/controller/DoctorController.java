@@ -21,9 +21,7 @@ public class DoctorController {
 
     //tested in postman
     @RequestMapping(method = RequestMethod.POST)
-    public Doctor addDoctorToDB(@RequestBody Doctor doctor, @RequestParam(name = "officeID") Integer officeID) {
-        // Associate the doctor with the specified officeID
-        doctor.setOfficeID(officeID);
+    public Doctor addDoctorToDB(@RequestBody Doctor doctor) {
 
         try {
             return doctorDao.createDoctor(doctor);

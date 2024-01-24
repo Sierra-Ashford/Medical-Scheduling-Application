@@ -1,27 +1,29 @@
 <template>
-  <section>
-    <h1>Prescription for {{ patient.firstName }} {{ patient.lastName }}</h1>
+  <section class="grid-container">
+    <h1 class="header">Prescription for {{ patient.firstName }} {{ patient.lastName }}</h1>
     <div>
         <!-- List of prescriptions for the selected patient -->
-      <div v-if="prescriptions.length > 0">
-        <div v-for="prescription in prescriptions" :key="prescription.id">
+      <div v-if="prescriptions.length > 0" class="center">
+        <h1>Previously Prescribed </h1>
+        <div v-for="prescription in prescriptions" :key="prescription.id" class="prescription-container">
           <p><strong>Name:</strong> {{ prescription.name }}</p>
-          <p><strong>Cost:</strong> {{ prescription.cost }}</p>
+          <p><strong>Cost: $</strong> {{ prescription.cost }}</p>
           <!-- <button @click="updatePrescription(prescription.id)">Update</button> -->
-          <button @click="deletePrescription(prescription.prescriptionId)">Delete</button>
+          <button @click="deletePrescription(prescription.prescriptionId)" class="button">Delete</button>
         </div>
       </div>
       <p v-else>No prescriptions available</p>
     </div>
 
-    <div>
+    <div >
         <!-- Form for creating a new prescription -->
-      <form @submit.prevent="createPrescription">
-        <label>Name:</label>
-        <input v-model="newPrescription.name" required />
-        <label>Cost:</label>
-        <input v-model="newPrescription.cost" type="number" required />
-        <button type="submit">Prescribe this Medicine</button>
+        <h1>Prescribe new medication</h1>
+      <form @submit.prevent="createPrescription" class="create-rx">
+        <label class="label">Name:</label>
+        <input v-model="newPrescription.name" required class="blue-border"/>
+        <label class="label">Cost: $</label>
+        <input v-model="newPrescription.cost" type="number" required class="blue-border" />
+        <button type="submit" class="button">Prescribe this Medicine</button>
       </form>
     </div>
   </section>
@@ -129,4 +131,67 @@ export default {
 
 <style scoped>
 /* Add your component-specific styles here */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "med rx"; 
+  gap: 20px; 
+  padding: 20px; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.prescription-container {
+border: 2px solid #587DFF;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
+ width: 300px;
+ grid-area: med;
+
+}
+.header {
+  text-align: center;
+  margin-bottom: 20px; 
+  grid-area: header;
+  
+}
+.button {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #587DFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  .button:hover {
+    background-color: #B6E2EF;
+  }
+
+  .blue-border {
+    border: 2px solid #587DFF;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: darkgrey;
+}
+.label {
+    color: darkgrey;
+}
+.create-rx{
+  grid-area: rx;
+  width: 600px;
+}
+.center{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -11,13 +11,13 @@
 
       <div class="notifications">
 
-
-        <NotificationsList></NotificationsList>
+<!-- 
+        <NotificationsList></NotificationsList> -->
       </div>
 
       <div class="appointments">
 
-        <AppointmentCalendar :currentDoctorId="1"></AppointmentCalendar>
+        <!-- <AppointmentCalendar :currentDoctorId="doctorId"></AppointmentCalendar> -->
       </div>
     </div>
   </div>
@@ -25,14 +25,19 @@
     
 <script>
 import Navbar from '../components/NavBar.vue'
-import NotificationsList from '../components/NotificationsList.vue';
-import AppointmentCalendar from '../components/AppointmentCalendar.vue';
+// import NotificationsList from '../components/NotificationsList.vue';
+// import AppointmentCalendar from '../components/AppointmentCalendar.vue';
 
 export default {
+  data() {
+    return {
+      doctorId: null
+    }
+  },
   components: {
     Navbar,
-    NotificationsList,
-    AppointmentCalendar,
+    // NotificationsList,
+    // AppointmentCalendar,
   },
   computed: {
     navbarButtonText() {
@@ -42,6 +47,10 @@ export default {
       return "logout";
     }
   },
+  beforeMount() {
+    this.doctorId = this.$store.state.doctorId;
+    //this.doctorId = parseInt(localStorage.getItem('doctorId'));
+  }
 };
 </script>
   
