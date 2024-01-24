@@ -26,8 +26,8 @@
     
 <script>
 import Navbar from '../components/NavBar.vue'
-// import NotificationsList from '../components/NotificationsList.vue';
-// import AppointmentCalendar from '../components/AppointmentCalendar.vue';
+import NotificationsList from '../components/NotificationsList.vue';
+import AppointmentCalendar from '../components/AppointmentCalendar.vue';
 
 export default {
   data() {
@@ -37,8 +37,8 @@ export default {
   },
   components: {
     Navbar,
-    // NotificationsList,
-    // AppointmentCalendar,
+    NotificationsList,
+    AppointmentCalendar,
   },
   computed: {
     navbarButtonText() {
@@ -50,7 +50,7 @@ export default {
   },
   beforeMount() {
     this.doctorId = this.$store.state.doctorId;
-    //this.doctorId = parseInt(localStorage.getItem('doctorId'));
+    // this.doctorId = parseInt(localStorage.getItem('doctorId'));
   }
 };
 </script>

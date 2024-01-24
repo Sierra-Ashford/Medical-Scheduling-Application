@@ -3,7 +3,7 @@
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div class="home">
       <h1> Patient Home</h1>
-      <!-- <NotificationsList :currentPatientId="1"></NotificationsList> -->
+      <NotificationsList :currentPatientId="this.$store.state.patientId ?? 2"></NotificationsList>
       <PatientInfo />
     </div>
 
@@ -19,7 +19,7 @@
   export default {
     components: {
       Navbar,
-      //  NotificationsList,
+       NotificationsList,
       PatientInfo
     },
     computed: {

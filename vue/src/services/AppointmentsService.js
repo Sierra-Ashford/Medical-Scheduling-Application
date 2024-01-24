@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getDate} from 'date-fns';
 import { createDateFromString } from '../utilities';
-import {getDate, isEqual} from 'date-fns'
+// import {getDate, isEqual} from 'date-fns'
 
 const http = axios.create({
   baseURL: "http://localhost:9000"
@@ -46,4 +46,23 @@ export default {
     //console.log({doctorId, date, appointments, filteredByDoctor, filteredByDate, mappedToDates});
     return mappedToDates;
   },
+  async getAppointmentsByDoctorIdAndDate(doctorId, date) {
+    const appointments = await this.getAllAppointments();
+    const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
+    const filteredByDate = filteredByDoctor.filter(appointment => {
+      // console.log({
+      //   date,
+      //   startTimeFromAPI: appointment.appointmentStartTime,
+      //   startTimeUsingStringCtor: new Date(appointment.appointmentStartTime),
+      //   startTimeUsingNumberCtor: createDateFromString(appointment.appointmentStartTime),
+      //   getDateFromApptUsingString: getDate(new Date(appointment.appointmentStartTime)),
+      //   getDateFromApptUsingNumber:getDate(createDateFromString(appointment.appointmentStartTime)),
+      //   getDateFromInput: getDate(date) })
+      return getDate(createDateFromString(appointment.appointmentStartTime)) === getDate(date)});
+    const mappedToDates = filteredByDate.map(appointment => ({
+      ...appointment,
+      startDateTime: createDateFromString(appointment.appointmentStartTime),
+      endDateTime: createDateFromString(appointment.appointmentEndTime)}));
+    return mappedToDates;
+  }
 }
