@@ -51,7 +51,10 @@ export function createStore(currentToken, currentUser) {
       },
       SET_ERROR_MESSAGE(state, errorMessage) {
         state.errorMessage = errorMessage;
-      }
+      },
+      SET_SELECTED_PATIENT_ID(state, patientId) {
+        state.selectedPatientId = patientId;
+      },
     },
   });
   return store;

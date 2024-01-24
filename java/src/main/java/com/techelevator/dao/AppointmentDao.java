@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AppointmentDao {
 
-    public List<Appointment> getAllAppointmentByDoctorId(int doctorId);
+    public List<Appointment> getAppointmentsByDoctorId(int doctorId);
     public List<Appointment> getAllAppointmentByPatientId(int patientId);
     public Appointment getAppointmentById(int appointmentId);
     public Appointment createNewAppointment(Appointment appointment);

@@ -37,9 +37,15 @@ export default {
     //console.log({doctorId, date, appointments, filteredByDoctor, filteredByDate, mappedToDates});
     return mappedToDates;
   },
-  async getAppointmentsByDoctorId(doctorId){
-    const appointments = await this.getAllAppointments();
-    const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
-    return filteredByDoctor;
+  // async getAppointmentsByDoctorId(doctorId){
+  //   const appointments = await this.getAllAppointments();
+  //   const filteredByDoctor = appointments.filter(appointment => appointment.doctorId === doctorId);
+  //   return filteredByDoctor;
+  // },
+  getAppointmentsByDoctorId(doctorId) {
+    return http.get(`/appointments/doctor/${doctorId}`)
+  },
+  getAppointmentsByPatientId(patientId) {
+    return http.get(`/appointments/patient/${patientId}`)
   }
 }
