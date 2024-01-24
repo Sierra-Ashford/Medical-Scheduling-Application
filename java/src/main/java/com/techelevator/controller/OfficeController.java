@@ -17,10 +17,10 @@ public class OfficeController {
     @Autowired
     private OfficeDao officeDao;
 
-    @RequestMapping( method= RequestMethod.POST)
-    public Office addOfficeToDB(@RequestBody Office office) {
-        return officeDao.createOffice(office);
-    }
+//    @RequestMapping( method= RequestMethod.POST)
+//    public Office addOfficeToDB(@RequestBody Office office) {
+//        return officeDao.createOffice(office);
+//    }
 
     @RequestMapping( method= RequestMethod.GET)
     public List<Office> getAllOffices() {

@@ -1,45 +1,51 @@
 <template>
-    <h1>Book an Appointment</h1>
-    <div>
-        <label for="doctor" style="margin-right: 40px;">Select your doctor</label>
-        <select name="doctor" id="doctor" style="min-width:200px" v-model="selectedDoctorId"
-            @change="onSelectedDoctorChanged">
-            <option value="">Select a Doctor</option>
-            <option v-for="doctor in availableDoctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{
-                doctor.firstName }} {{ doctor.lastName }}</option>
+    <div class="grid-container">
+        <div class="header">
+            <h1>Schedule an Appointment</h1>
+        </div>
+        <div class="form">
+            <div>
+                <label for="doctor" style="margin-right: 40px;" class="label">Select your doctor</label>
+                <select name="doctor" id="doctor" style="min-width:200px" v-model="selectedDoctorId"
+                    @change="onSelectedDoctorChanged" class ="blue-border">
+                    <option value="" >Select a Doctor</option>
+                    <option v-for="doctor in availableDoctors" v-bind:key="doctor.doctorId" :value="doctor.doctorId">Dr. {{
+                        doctor.firstName }} {{ doctor.lastName }}</option>
 
-        </select>
-    </div>
-    <div>
-        <label for="description">Reason for visit:</label>
-        <input type="text" v-model="notesForVisit" placeholder="Briefly describe your reason">
-    </div>
-    <div v-if="selectedDoctorId != null && selectedDoctorId != ''">
-        <label for="selectedDate" style="margin-right: 40px;">Select Date</label>
-        <input type="date" name="selectedDate" id="selectedDate" v-model="selectedDateString"
-            @change="onSelectedDateChanged">
-    </div>
-    <div v-if="selectedDoctorId && selectedDate">
-        <!-- <div>{{ availableTimeslotsForDay }}</div> -->
-        <div v-if="availableTimeslotsForDay.length > 0">
-            <label>Please select available time slot</label>
-            <div v-for="timeslot in availableTimeslotsForDay" :key="timeslot.startDateTime.toString()">
-                <TimeSlot :timeslot="timeslot" :doctorId="selectedDoctorId" :patientId="patientId" :notes="notesForVisit"
-                    @appt-booked="onAppointmentBooked" />
-
-
-                <!-- on-click route to home--give patient success message or error code -->
-
+                </select>
+            </div>
+            <div>
+                <label for="description" class="label">Reason for visit:</label>
+                <input type="text" v-model="notesForVisit" placeholder="Briefly describe why you need an appointment" class="blue-border">
+            </div>
+            <div v-if="selectedDoctorId != null && selectedDoctorId != ''">
+                <label for="selectedDate" style="margin-right: 40px;" class="label">Select Date</label>
+                <input type="date" name="selectedDate" id="selectedDate" v-model="selectedDateString"
+                    @change="onSelectedDateChanged" class="blue-border">
             </div>
         </div>
-        <div v-else>
-            <label>No timeslots available on this day.</label>
+        <div v-if="selectedDoctorId && selectedDate">
+            <!-- <div>{{ availableTimeslotsForDay }}</div> -->
+            <div v-if="availableTimeslotsForDay.length > 0">
+                <label class="label">Please select available time slot</label>
+                <div v-for="timeslot in availableTimeslotsForDay" :key="timeslot.startDateTime.toString()">
+                    <TimeSlot :timeslot="timeslot" :doctorId="selectedDoctorId" :patientId="patientId"
+                        :notes="notesForVisit" @appt-booked="onAppointmentBooked" />
+
+
+                    <!-- on-click route to home--give patient success message or error code -->
+
+                </div>
+            </div>
+            <div v-else>
+                <label class="label">No timeslots available on this day.</label>
+            </div>
         </div>
-    </div>
-    <!-- <div>
+        <!-- <div>
         <label>DEBUG</label>
         <code><pre>{{ JSON.stringify({ selectedDateString, selectedDate, availabilityForSelectedDoctor, appointmentsForSelectedDoctor, possibleTimeslotsForDay, availableTimeslotsForDay }, null, 2) }}</pre></code>
     </div> -->
+    </div>
 </template>
    
 <script>
@@ -172,13 +178,59 @@ export default {
             //console.log('event caught');
             // an appointment has been booked, so appointments need to be fetched
             this.appointmentsForSelectedDoctor = await appointmentService.getAppointmentsByDoctorIdAndDate(this.selectedDoctorId, this.selectedDate);
+            alert('Appointment successfully booked!');
         },
     },
     async beforeMount() {
-        //this.patientId = parseInt(localStorage.getItem('patientId'));
-        this.patientId = this.$store.state.patientId;
+        this.patientId = parseInt(localStorage.getItem('patientId'));
+
         const response = await doctorService.getAllDoctors();
         this.availableDoctors = response.data;
     }
 };
 </script>
+
+<style scoped>
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "form . "; 
+  gap: 20px; 
+  padding: 20px; 
+  align-items: center;
+  justify-items: center; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.header {
+  text-align: center;
+  margin-bottom: 20px; 
+  grid-area: header;
+  
+}
+
+.form {
+    grid-area: form;
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    align-self: start;
+}
+.blue-border {
+    border: 2px solid #587DFF;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: darkgrey;
+}
+
+.label {
+    color: darkgrey;
+}
+.blue-border::placeholder {
+  color: darkgray;
+}
+</style>

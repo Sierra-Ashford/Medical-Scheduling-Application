@@ -119,9 +119,6 @@ export default {
         phoneNumber: '',
         email: '',
       },
-      office: {
-        name: 'MedConect',
-      },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
@@ -150,12 +147,12 @@ export default {
             const patient = await PatientService.create({ ...this.patient, userId: response.data.id });
             //console.log(patient);
           } else {
-            const office = await OfficeService.create({ ...this.office });
-            const officeID = office.data.office_id;
+          //  const office = await OfficeService.create({ ...this.office });
+          //   const officeID = office.data.office_id;
 
-            console.log('officeID:', officeID);
+          //   console.log('officeID:', officeID);
 
-            await DoctorService.create({ ...this.doctor, userId: response.data.id, officeID });
+            const doctor = await DoctorService.create({ ...this.doctor, userId: response.data.id });
           }
 
           this.$router.push({

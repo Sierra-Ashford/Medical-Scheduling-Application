@@ -50,6 +50,7 @@ export default {
     },
     createAppointment(doctorId) {
       console.log('Creating appointment for doctor ID:', doctorId);
+      this.$router.push({ name:  'bookAppointment'});
     },
     viewReviews(doctorId) {
       this.$router.push({ name: 'leave-review', params: { doctorId } });
