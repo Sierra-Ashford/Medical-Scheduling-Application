@@ -29,14 +29,13 @@ INSERT INTO users (username, password_hash, role) VALUES
 
 -- Sample data for doctors table
 INSERT INTO doctors (user_id, first_name, last_name, specialty, headshot) VALUES
-(3, 'Alexander ', 'Bennett', 'Cardiology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06ESKZFE3W-aaeadfd9f0/image_480_480.png'),
-(4, 'Harper ', 'Lewis', 'Pediatrics', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E9KXK97H-e95ccf5319/image_720_720.png'),
-(5, 'Noah  ', 'Foster', 'Neurology', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CNT8J2-5ae3afc1f3/image_720.png'),
-(6, 'Sebastian  ', 'Patel', 'Physical Therapy', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06DWFAECVD-9dce1ce3ee/image_720.png'),
-(7, 'Aria  ', 'Williams', 'Nutrition', 'https://files.slack.com/files-tmb/T0GNFLF6D-F06E4CK351U-b2ec5d86ac/image_720.png'),
-(8, 'Liam  ', 'Mitchell', 'General Practitioner', 'https://files.slack.com/files-pri/T0GNFLF6D-F06DWF6U7AT/image.png'),
-(9, 'Grace  ', 'Taylor', 'OBGYN', 'https://files.slack.com/files-pri/T0GNFLF6D-F06E4CF8LUE/image.png');
-
+(3, 'Alexander ', 'Bennett', 'Cardiology', '/Images/image_480.png'),
+(4, 'Harper ', 'Lewis', 'Pediatrics', '/Images/image_720.png'),
+(5, 'Noah  ', 'Foster', 'Neurology', '/Images/image_750.png'),
+(6, 'Sebastian  ', 'Patel', 'Physical Therapy', '/Images/image_710.png'),
+(7, 'Aria  ', 'Williams', 'Nutrition', '/Images/image_730.png'),
+(8, 'Liam  ', 'Mitchell', 'General Practitioner', '/Images/image_740.png'),
+(9, 'Grace  ', 'Taylor', 'OBGYN', '/Images/image_700.png');
 
 -- Sample data for office table
 INSERT INTO office (name, address, phone_number, office_hr) VALUES
@@ -65,8 +64,17 @@ INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES
 
 -- Sample data for reviews table
 INSERT INTO reviews (doctor_id, response, rating, review_note) VALUES
-(1, 'Thank you for your excellent service!', 5, 'Highly recommended'),
-(2, 'Great with kids, very caring.', 4, 'Would visit again');
+(1, 'Great service', 4, 'First time seeing Dr. Bennett, but already a fan! Super thorough and answered all my questions.'),
+(1, 'Highly recommended', 5, 'Thank you for your excellent service!'),
+(1, 'Awesome', 4, 'Dr. Bennett and his expertise in cardiology is unmatched. His detailed approach to my complex condition gave me confidence in my treatment plan.'),
+(2, 'Would visit again', 4, 'Great with kids, very caring.'),
+(2, 'Wonderful', 5, 'My kids are actually excited to visit the doctor.  Dr. Lewis is caring, attentive, and incredibly skilled.'),
+(3, 'On the fence', 2, 'Dr. Foster seemed competent and professional but I felt a bit rushed during the appointment and would have liked more time to discuss my concerns.'),
+(3, 'Very thorough ', 3, 'He was quick in diagnosing my migraines. His treatment plan has reduced my headaches significantly.'),
+(4, 'Attentive', 3, 'Dr, Patel is very thorough and I trust him completely with my care.'),
+(5, 'Great service', 5, 'Dr. Williams is incredibly knowledgeable and always takes the time to explain things in an understandable way.'),
+(6, 'Not impressed', 1, 'Im not impressed with Dr. Mitchell. He sometimes seems a bit dismissive of my concerns.'),
+(7, 'Highly recommend', 5, 'Thorough and takes the time to answer all of my questions and concerns.');
 
 -- Sample data for availability table
 INSERT INTO availability (doctor_id, day_id, start_time, end_time) VALUES

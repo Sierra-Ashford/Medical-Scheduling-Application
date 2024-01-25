@@ -62,7 +62,7 @@ export default {
       }
     },
     navigateToBookAppointment(doctorId) {
-      this.$router.push({ name: 'book-appointment', params: { doctorId: doctorId } });
+      this.$router.push({ name: 'bookAppointment', params: { doctorId: doctorId } });
     },
     viewReviews(doctorId) {
       this.$router.push({ name: 'leave-review', params: { doctorId } });
