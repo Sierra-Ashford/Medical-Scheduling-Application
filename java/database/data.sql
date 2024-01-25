@@ -54,12 +54,19 @@ INSERT INTO appointments (doctor_id, patient_id, appointment_start_time, appoint
 (1, 2, '2024-02-01T10:00:00', '2024-02-01T11:00:00', 'Cardiology Checkup'),
 (2, 4, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Pediatrics Consultation'),
 (6, 3, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Annual Exam'),
+(1, 1, '2024-02-05T10:00:00', '2024-02-05T10:30:00', 'Cardiology Checkup'),
+(1, 4, '2024-02-05T14:30:00', '2024-02-05T15:30:00', 'Annual Exam'),
+(1, 3, '2024-02-05T15:30:00', '2024-02-05T16:00:00', 'Cardiology Checkup'),
+(1, 3, '2024-02-06T14:30:00', '2024-02-06T15:30:00', 'Cardiology Checkup'),
 (4, 1, '2024-02-02T14:30:00', '2024-02-02T15:30:00', 'Physical Therapy Session');
 -- Sample data for prescriptions table
 INSERT INTO prescriptions (patient_id, doctor_id, name, cost) VALUES
-(1, 2, 'Prednisone', 120),
+(1, 1, 'Prednisone', 120),
 (2, 1, 'Warfarin', 205),
-(3, 6, 'Amoxicillin', 57),
+(3, 1, 'Amoxicillin', 57),
+(1, 1, 'Atorvastatin', 310),
+(4, 2, 'Warfarin', 205),
+(2, 6, 'Amoxicillin', 57),
 (4, 3, 'Azithromycin', 89);
 
 -- Sample data for reviews table
@@ -78,8 +85,14 @@ INSERT INTO reviews (doctor_id, response, rating, review_note) VALUES
 
 -- Sample data for availability table
 INSERT INTO availability (doctor_id, day_id, start_time, end_time) VALUES
-(1, 1, '08:00:00', '17:00:00'),
-(2, 3, '09:00:00', '16:00:00');
+(1, 1, '10:00:00', '11:00:00'),
+(1, 1, '12:00:00', '17:00:00'),
+(1, 2, '07:30:00', '12:00:00'),
+(1, 2, '13:00:00', '18:00:00'),
+(1, 3, '09:00:00', '17:00:00'),
+(1, 4, '09:00:00', '19:00:00'),
+(1, 5, '12:00:00', '16:00:00'),
+(2, 6, '09:00:00', '16:00:00');
 
 
 COMMIT TRANSACTION;

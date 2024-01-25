@@ -64,5 +64,10 @@ export default {
       startDateTime: createDateFromString(appointment.appointmentStartTime),
       endDateTime: createDateFromString(appointment.appointmentEndTime)}));
     return mappedToDates;
+  },
+  async getAppointmentsByPatientId(patientId) {
+    const appointments = await this.getAllAppointments();
+    const filteredByPatient = appointments.filter(appointment => appointment.patientId === patientId);
+    return filteredByPatient;
   }
 }

@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       reviews: [],
-      doctorId: this.$route.params.doctorId,
+      doctorId: null, // Default value, or you can set it to null or any other appropriate default
     };
   },
   computed: {
@@ -37,6 +37,10 @@ export default {
     }
   },
   created() {
+    // Parse the doctorId from localStorage to an integer
+    this.doctorId = parseInt(localStorage.getItem('doctorId'), 10);
+
+    // Fetch reviews for the doctorId
     this.fetchReviews();
   },
   methods: {
