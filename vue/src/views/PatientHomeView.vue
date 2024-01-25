@@ -2,7 +2,7 @@
   <div class="grid-container">
     <Navbar :buttonText="navbarButtonText" :buttonDestination="navbarButtonDestination" />
     <div class="home">
-      <h1> Patient Home</h1>
+      <!-- <h1> Patient Home</h1> -->
       <NotificationsList :currentPatientId="this.$store.state.patientId ?? 2"></NotificationsList>
       <PatientInfo />
     </div>
